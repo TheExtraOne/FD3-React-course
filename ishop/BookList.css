@@ -39,4 +39,9 @@
     width: 100px;
     height: auto;
     margin: 5px;
+    transition: all 0.3s ease-in;
+}
+.bookImg:hover{
+    transform: scale(2);
+    transition: all 0.3s ease-in;
 }
