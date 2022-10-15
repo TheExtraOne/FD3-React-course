@@ -19,14 +19,29 @@
     <script>
         var shopName = "Sly fox'x book shop";
         var booksArr = [
-            {bookName:'Пикник на обочине', bookAuthor: 'А. и Б.Стругацкие', bookPrice: 15, bookURL:'img/Picknick.jpg', howMuchLeft:1},
-            {bookName:'Краткая история человечества', bookAuthor:'Ю.Н.Харари', bookPrice:36, bookURL:'img/HumanHistory.jpg', howMuchLeft:6},
-            {bookName:'Сфагнум', bookAuthor:'В.Мартинович', bookPrice:10, bookURL:'img/Sphagnum.jpg', howMuchLeft:3},
-            {bookName:'Люди на болоте', bookAuthor:'И.Мележ', bookPrice:16, bookURL:'img/Swump.jpg', howMuchLeft:8},
-            {bookName:'Мастер и Маргарита', bookAuthor:'М.Булгаков', bookPrice:25, bookURL:'img/Master.jpg', howMuchLeft:1},
-            {bookName:'Аэропорт', bookAuthor:'А.Хейли', bookPrice:20, bookURL:'img/Airport.jpg', howMuchLeft:45},
-            {bookName:'Тёмная Башня', bookAuthor:'С.Кинг', bookPrice:25, bookURL:'img/DarkTower.jpg', howMuchLeft:14},
+            {bookName:'Пикник на обочине', bookAuthor: 'А. и Б.Стругацкие', bookPrice: 15, bookURL:'img/Picknick.jpg', howMuchLeft:1, key:1},
+            {bookName:'Краткая история человечества', bookAuthor:'Ю.Н.Харари', bookPrice:36, bookURL:'img/HumanHistory.jpg', howMuchLeft:6, key:2},
+            {bookName:'Сфагнум', bookAuthor:'В.Мартинович', bookPrice:10, bookURL:'img/Sphagnum.jpg', howMuchLeft:3, key:3},
+            {bookName:'Люди на болоте', bookAuthor:'И.Мележ', bookPrice:16, bookURL:'img/Swump.jpg', howMuchLeft:8, key:4},
+            {bookName:'Мастер и Маргарита', bookAuthor:'М.Булгаков', bookPrice:25, bookURL:'img/Master.jpg', howMuchLeft:1, key:5},
+            {bookName:'Аэропорт', bookAuthor:'А.Хейли', bookPrice:20, bookURL:'img/Airport.jpg', howMuchLeft:45, key:6},
+            {bookName:'Тёмная Башня', bookAuthor:'С.Кинг', bookPrice:25, bookURL:'img/DarkTower.jpg', howMuchLeft:14, key:7},
         ];
+        var tableCaptures = [
+            {part:'Название книги', key:1}, 
+            {part:'Автор', key:2},
+            {part:'Цена', key:3},
+            {part:'Превью', key:4},
+            {part:'Осталось на складе', key:5}
+        ];
+
+        function buildProductsList(someName, arr, categoryNames) {
+            ReactDOM.render(
+                React.createElement(GoodsList, {shopName:someName, productsArr:arr, categoryNames:categoryNames}),
+                document.querySelector('#container')
+            );
+        }
+        buildProductsList(shopName, booksArr, tableCaptures);
     </script>
 </body>
 </html>
