@@ -1,0 +1,26 @@
+.ShopProductSelected{
+    background: #c4c3c3 !important;
+}
+tr{
+    cursor: pointer;
+}
+.ProductName{
+    width: 250px;
+    font: bold 1.2em sans-serif;
+}
+.ProductAuthor{width: 160px;}
+.ProductPrice,.howMuchProductLeft{width: 100px;}
+.ProductImg{
+    width: 100px;
+    height: auto;
+    margin: 5px;
+    transition: all 0.3s ease-in;
+}
+.ProductImg:hover{
+    transform: scale(1.5);
+    transition: all 0.3s ease-in;
+}
+.ProductDeleteButton{
+    padding: 2px 5px;
+    cursor: pointer;
+}

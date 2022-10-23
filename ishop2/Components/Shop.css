@@ -1,0 +1,27 @@
+.ShopWrapper {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px 5px;
+}
+.ShopName{
+    font: bold 3.5em sans-serif;
+    margin: 10px 0px 50px 0px;
+}
+.ShopProductsList{
+    border-collapse: collapse;
+    border: 1px solid #eee;
+    text-align: center;
+}
+.ShopProductsList td{
+    border: 1px solid #dddddd;
+    padding: 10px;
+}
+.ShopProductsList tr:nth-child(odd){
+	background: #fff;
+}
+.ShopProductsList tr:nth-child(even){
+	background: #F7F7F7;
+}
