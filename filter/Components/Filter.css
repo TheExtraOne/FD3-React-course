@@ -1,0 +1,15 @@
+.FilterWrapper input[type=text] {
+    margin: 0px 10px;
+}
+.FilterWrapper input[type=button] {
+    padding: 2px 5px;
+    cursor: pointer;
+}
+.FilterWrapper .List {
+    height: 150px;
+    margin: 10px 0px;
+    padding: 5px 5px 5px 10px;
+    border: solid 1px black;
+    font-size: 25px;
+    overflow-y: scroll;
+}
