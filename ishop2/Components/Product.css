@@ -1,5 +1,7 @@
-.ShopProductsList tr:hover:not(tr:first-child){
-    background: #c4c3c3;
+.ShopProductSelected{
+    background: #c4c3c3 !important;
+}
+tr{
     cursor: pointer;
 }
 .ProductName{
@@ -17,4 +19,8 @@
 .ProductImg:hover{
     transform: scale(1.5);
     transition: all 0.3s ease-in;
+}
+.ProductDeleteButton{
+    padding: 2px 5px;
+    cursor: pointer;
 }

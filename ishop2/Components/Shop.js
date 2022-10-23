@@ -11,6 +11,7 @@ var Shop = React.createClass({
                 bookURL: React.PropTypes.string.isRequired,
                 howMuchLeft: React.PropTypes.number.isRequired,
                 code: React.PropTypes.number.isRequired,
+                control:React.PropTypes.string.isRequired,
             })
         ),
         categoryNames: React.PropTypes.arrayOf(
@@ -21,11 +22,23 @@ var Shop = React.createClass({
         )
     },
 
+    getInitialState: function() {
+        return { 
+            selectedString: null,
+            productsArrState: this.props.productsArr.slice(0)
+        };
+    },
+
+    stringSelected: function(code) {
+        this.setState( {selectedString:code} );
+    },
+
     render:function() {
         var tableCapture = React.DOM.tr(null, this.props.categoryNames.map(item => React.DOM.td({key:item.code}, item.part)));
-        var tableString = this.props.productsArr.map(item =>
+        var tableString = this.state.productsArrState.map(item =>
             React.createElement(Product, {bookName:item.bookName, bookAuthor:item.bookAuthor, bookPrice:item.bookPrice,
-                bookURL:item.bookURL, howMuchLeft:item.howMuchLeft,key:item.code})
+                bookURL:item.bookURL, howMuchLeft:item.howMuchLeft,code:item.code, key:item.code, isSelected:(this.state.selectedString == item.code),
+                cbSelected:this.stringSelected, control:item.control})
             );
 
         return React.DOM.div({className:'ShopWrapper'},
