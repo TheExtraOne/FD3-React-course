@@ -1,4 +1,4 @@
-.GoodsLisPageWrapper {
+.ShopWrapper {
     height: 100%;
     display: flex;
     justify-content: center;
@@ -10,38 +10,18 @@
     font: bold 3.5em sans-serif;
     margin: 10px 0px 50px 0px;
 }
-.ProductsList{
+.ShopProductsList{
     border-collapse: collapse;
     border: 1px solid #eee;
     text-align: center;
 }
-.ProductsList td{
+.ShopProductsList td{
     border: 1px solid #dddddd;
     padding: 10px;
 }
-.ProductsList tr:nth-child(odd){
+.ShopProductsList tr:nth-child(odd){
 	background: #fff;
 }
-.ProductsList tr:nth-child(even){
+.ShopProductsList tr:nth-child(even){
 	background: #F7F7F7;
-}
-.ProductsList tr:hover:not(tr:first-child){
-    background: #c4c3c3;
-    cursor: pointer;
-}
-.bookName{
-    width: 250px;
-    font: bold 1.2em sans-serif;
-}
-.bookAuthor{width: 160px;}
-.bookPrice,.howMuchLeft{width: 100px;}
-.bookImg{
-    width: 100px;
-    height: auto;
-    margin: 5px;
-    transition: all 0.3s ease-in;
-}
-.bookImg:hover{
-    transform: scale(2);
-    transition: all 0.3s ease-in;
 }
