@@ -37,15 +37,15 @@ var Filter = React.createClass({
 
     render:function() {
         
-        var listOfWords = this.state.vocabulary.map((item, i) => 
+        /*var listOfWords = this.state.vocabulary.map((item, i) => 
             React.DOM.p({className:'ItemOfList', key:i}, item)
-            
-        );
+        );*/
         return React.DOM.div({className:'FilterWrapper'},
                 React.DOM.input({type:'checkbox', checked:(this.state.isChecked), onChange:this.alphabetFilterSelected}, null),
                 React.DOM.input({type:'text', value:this.state.value, onChange:this.includeFilterSelected}, null),
                 React.DOM.input({type:'button', value:'сброс', onClick:this.reset}, null),
-                React.DOM.div({className:'List'}, listOfWords)
+                React.DOM.div({className:'List'}, this.state.vocabulary.map((item, i) => 
+                    React.DOM.p({className:'ItemOfList', key:i}, item)))
         )
     }
 })
