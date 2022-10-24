@@ -45,9 +45,9 @@ var Shop = React.createClass({
                 cbSelected:this.stringSelected, control:item.control, cbDeleteProduct:this.deleteProduct})
             );
 
-        return React.DOM.div({className:'ShopWrapper'},
-                React.DOM.h1({className:'ShopName'}, this.props.shopName),
-                React.DOM.table({className:'ShopProductsList'},
+        return React.DOM.div({className:'Shop'},
+                React.DOM.h1({className:'Shop__name'}, this.props.shopName),
+                React.DOM.table({className:'Shop__productsList'},
                     React.DOM.tbody(null, tableCapture, tableString),
                 )
         )

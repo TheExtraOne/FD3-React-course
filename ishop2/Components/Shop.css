@@ -1,4 +1,4 @@
-.ShopWrapper {
+.Shop {
     height: 100%;
     display: flex;
     justify-content: center;
@@ -6,22 +6,22 @@
     flex-direction: column;
     padding: 10px 5px;
 }
-.ShopName{
+.Shop__name{
     font: bold 3.5em sans-serif;
     margin: 10px 0px 50px 0px;
 }
-.ShopProductsList{
+.Shop__productsList{
     border-collapse: collapse;
     border: 1px solid #eee;
     text-align: center;
 }
-.ShopProductsList td{
+.Shop__productsList td{
     border: 1px solid #dddddd;
     padding: 10px;
 }
-.ShopProductsList tr:nth-child(odd){
+.Shop__productsList tr:nth-child(odd){
 	background: #fff;
 }
-.ShopProductsList tr:nth-child(even){
+.Shop__productsList tr:nth-child(even){
 	background: #F7F7F7;
 }
