@@ -22,8 +22,7 @@ var Filter = React.createClass({
     },
 
     reset: function() {
-        this.setState( {isChecked: false}, this.changeVoc );
-        this.setState( {value: ''}, this.changeVoc );
+        this.setState( {isChecked: false, value: ''}, this.changeVoc );
     },
 
     changeVoc: function() {
