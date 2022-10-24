@@ -2,20 +2,16 @@ var Product = React.createClass({
     displayName:'Product',
 
     propTypes:{
-        productsArr: React.PropTypes.arrayOf(
-            React.PropTypes.shape({
-                bookName: React.PropTypes.string.isRequired,
-                bookAuthor: React.PropTypes.string.isRequired,
-                bookPrice: React.PropTypes.number.isRequired,
-                bookURL: React.PropTypes.string.isRequired,
-                howMuchLeft: React.PropTypes.number.isRequired,
-                code: React.PropTypes.number.isRequired,
-                isSelected: React.PropTypes.bool.isRequired,
-                cbSelected: React.PropTypes.func.isRequired,
-                cbDeleteProduct: React.PropTypes.func.isRequired,
-                control:React.PropTypes.string.isRequired
-            })
-        )
+        bookName: React.PropTypes.string.isRequired,
+        bookAuthor: React.PropTypes.string.isRequired,
+        bookPrice: React.PropTypes.number.isRequired,
+        bookURL: React.PropTypes.string.isRequired,
+        howMuchLeft: React.PropTypes.number.isRequired,
+        code: React.PropTypes.number.isRequired,
+        isSelected: React.PropTypes.bool.isRequired,
+        cbSelected: React.PropTypes.func.isRequired,
+        cbDeleteProduct: React.PropTypes.func.isRequired,
+        control:React.PropTypes.string.isRequired
     },
 
     stringClicked: function(EO) {
