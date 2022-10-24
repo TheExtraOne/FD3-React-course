@@ -33,12 +33,16 @@ var Shop = React.createClass({
         this.setState( {selectedString:code} );
     },
 
+    deleteProduct: function (deletedCode) {
+        this.setState( {productsArrState: this.state.productsArrState.filter(item => item.code !== deletedCode)} );
+    },
+
     render:function() {
         var tableCapture = React.DOM.tr(null, this.props.categoryNames.map(item => React.DOM.td({key:item.code}, item.part)));
         var tableString = this.state.productsArrState.map(item =>
             React.createElement(Product, {bookName:item.bookName, bookAuthor:item.bookAuthor, bookPrice:item.bookPrice,
                 bookURL:item.bookURL, howMuchLeft:item.howMuchLeft,code:item.code, key:item.code, isSelected:(this.state.selectedString == item.code),
-                cbSelected:this.stringSelected, control:item.control})
+                cbSelected:this.stringSelected, control:item.control, cbDeleteProduct:this.deleteProduct})
             );
 
         return React.DOM.div({className:'ShopWrapper'},
