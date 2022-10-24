@@ -13,8 +13,8 @@ var Filter = React.createClass({
         };
     },
 
-    alphabetFilterSelected: function() {
-        this.setState( {isChecked: ((this.state.isChecked) ? false : true)}, this.changeVoc );
+    alphabetFilterSelected: function(EO) {
+        this.setState( {isChecked: EO.target.checked}, this.changeVoc );
     },
 
     includeFilterSelected: function(EO) {
@@ -27,19 +27,17 @@ var Filter = React.createClass({
     },
 
     changeVoc: function() {
-        this.setState( (prevState, props) => { return {vocabulary: ((this.state.isChecked) 
-            ? prevState.vocabulary.sort() 
-            : this.props.words.slice(0))}; } );
-        this.setState( (prevState, props) => { return {vocabulary: ((this.state.value) 
-            ? prevState.vocabulary.filter( item => item.includes( `${this.state.value}` ) ) 
-            : prevState.vocabulary)}; } );
+        let sotedArr = this.props.words.slice(0);
+        if (this.state.isChecked) {
+            sotedArr.sort();
+        }
+        if (this.state.value) {
+            sotedArr = sotedArr.filter( item => item.includes( `${this.state.value}` ) );
+        }
+        this.setState( {vocabulary: sotedArr} );
     },
 
     render:function() {
-        
-        /*var listOfWords = this.state.vocabulary.map((item, i) => 
-            React.DOM.p({className:'ItemOfList', key:i}, item)
-        );*/
         return React.DOM.div({className:'FilterWrapper'},
                 React.DOM.input({type:'checkbox', checked:(this.state.isChecked), onChange:this.alphabetFilterSelected}, null),
                 React.DOM.input({type:'text', value:this.state.value, onChange:this.includeFilterSelected}, null),
