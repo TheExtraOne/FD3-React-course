@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    <meta name="HandheldFriendly" content="True">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="cleartype" content="on">
+    <title>Sly fox'x book shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container"></div>
+
+    <script src="https://unpkg.com/react@15/dist/react.js"></script> 
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>   
+    <script src="Components/Shop.js"></script>
+    <script src="Components/Product.js"></script>
+    <link rel="stylesheet" type="text/css" href="Components/Shop.css">
+    <link rel="stylesheet" type="text/css" href="Components/Product.css">
+    <script>
+        var shopName = "Sly fox'x book shop";
+        var booksArr = [
+            {bookName:'Пикник на обочине', bookAuthor: 'А. и Б.Стругацкие', bookPrice: 15, bookURL:'asserts/Picknick.jpg', howMuchLeft:1, code:1, control:'delete'},
+            {bookName:'Краткая история человечества', bookAuthor:'Ю.Н.Харари', bookPrice:36, bookURL:'asserts/HumanHistory.jpg', howMuchLeft:6, code:2, control:'delete'},
+            {bookName:'Сфагнум', bookAuthor:'В.Мартинович', bookPrice:10, bookURL:'asserts/Sphagnum.jpg', howMuchLeft:3, code:3, control:'delete'},
+            {bookName:'Люди на болоте', bookAuthor:'И.Мележ', bookPrice:16, bookURL:'asserts/Swump.jpg', howMuchLeft:8, code:4, control:'delete'},
+            {bookName:'Мастер и Маргарита', bookAuthor:'М.Булгаков', bookPrice:25, bookURL:'asserts/Master.jpg', howMuchLeft:1, code:5, control:'delete'},
+            {bookName:'Аэропорт', bookAuthor:'А.Хейли', bookPrice:20, bookURL:'asserts/Airport.jpg', howMuchLeft:45, code:6, control:'delete'},
+            {bookName:'Тёмная Башня', bookAuthor:'С.Кинг', bookPrice:25, bookURL:'asserts/DarkTower.jpg', howMuchLeft:14, code:7, control:'delete'},
+        ];
+        var tableCaptures = [
+            {part:'Название книги', code:1}, 
+            {part:'Автор', code:2},
+            {part:'Цена, руб.', code:3},
+            {part:'Превью', code:4},
+            {part:'Осталось на складе', code:5},
+            {part:'Управление', code:6}
+        ];
+
+        function buildShop(shopNameF, productsArrF, categoryNamesF) {
+            ReactDOM.render(
+                React.createElement(Shop, {shopName:shopNameF, productsArr:productsArrF, categoryNames:categoryNamesF}),
+                document.querySelector('#container')
+            );
+        }
+        buildShop(shopName, booksArr, tableCaptures);
+    </script>
+</body>
+</html>

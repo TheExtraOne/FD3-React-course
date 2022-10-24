@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    <meta name="HandheldFriendly" content="True">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="cleartype" content="on">
+    <title>Filter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container"></div>
+
+    <script src="https://unpkg.com/react@15/dist/react.js"></script> 
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>   
+    <script src="Components/Filter.js"></script>
+    <link rel="stylesheet" type="text/css" href="Components/Filter.css">
+    <script>
+        var vocabulary = ['california', 'everything', 'aboveboard', 'washington', 'basketball', 'weathering', 'characters', 'literature', 'contraband', 'appreciate'];
+
+        function buildFilter(voc) {
+            ReactDOM.render(
+                React.createElement(Filter, {words:voc}),
+                document.querySelector('#container')
+            );
+        }
+        buildFilter(vocabulary);
+    </script>
+</body>
+</html>
