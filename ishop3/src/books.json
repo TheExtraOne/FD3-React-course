@@ -1,0 +1,9 @@
+[
+    {"bookName":"Пикник на обочине", "bookAuthor": "А. и Б.Стругацкие", "bookPrice": 15, "bookURL":"asset/Picknick.jpg", "howMuchLeft":1, "code":1, "control1":"Edit", "control2":"Delete"},
+    {"bookName":"Краткая история человечества", "bookAuthor":"Ю.Н.Харари", "bookPrice":36, "bookURL":"asset/HumanHistory.jpg", "howMuchLeft":6, "code":2,"control1":"Edit", "control2":"Delete"},
+    {"bookName":"Сфагнум", "bookAuthor":"В.Мартинович", "bookPrice":10, "bookURL":"asset/Sphagnum.jpg", "howMuchLeft":3, "code":3,"control1":"Edit", "control2":"Delete"},
+    {"bookName":"Люди на болоте", "bookAuthor":"И.Мележ", "bookPrice":16, "bookURL":"asset/Swump.jpg", "howMuchLeft":8, "code":4,"control1":"Edit", "control2":"Delete"},
+    {"bookName":"Мастер и Маргарита", "bookAuthor":"М.Булгаков", "bookPrice":25, "bookURL":"asset/Master.jpg", "howMuchLeft":1, "code":5,"control1":"Edit", "control2":"Delete"},
+    {"bookName":"Аэропорт", "bookAuthor":"А.Хейли", "bookPrice":20, "bookURL":"asset/Airport.jpg", "howMuchLeft":45, "code":6,"control1":"Edit", "control2":"Delete"},
+    {"bookName":"Тёмная Башня", "bookAuthor":"С.Кинг", "bookPrice":25, "bookURL":"asset/DarkTower.jpg", "howMuchLeft":14, "code":7,"control1":"Edit", "control2":"Delete"}
+]

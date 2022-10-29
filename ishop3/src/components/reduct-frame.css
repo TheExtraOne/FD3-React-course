@@ -1,0 +1,15 @@
+.reduct-frame__name {
+    text-align: center;
+}
+.reduct-frame__label {
+    width: 350px;
+    display: inline-block;
+}
+.reduct-frame__input {
+    float: right;
+}
+.reduct-frame__button {
+    margin: 10px 5px 0px 0px;
+    padding: 2px 5px;
+    cursor: pointer;
+}
