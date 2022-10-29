@@ -44,7 +44,7 @@ class Shop extends React.Component {
         const tableString = this.state.productsArrState.map(item =>
             <Product bookName={item.bookName} bookAuthor={item.bookAuthor} bookPrice={item.bookPrice}
                 bookURL={item.bookURL} howMuchLeft={item.howMuchLeft} code={item.code} key={item.code}
-                isSelected={(this.state.selectedString == item.code)}
+                isSelected={(this.state.selectedString === item.code)}
                 cbSelected={this.stringSelected} control={item.control} cbDeleteProduct={this.deleteProduct}
             />
         );
