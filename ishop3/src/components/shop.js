@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Product from './product';
 import ProductCard from './product-card';
+import ReductFrame from './reduct-frame';
 import './shop.css';
 
 class Shop extends React.Component {
@@ -31,11 +32,13 @@ class Shop extends React.Component {
     state = {
         selectedString: null,
         productsArrState: [...this.props.productsArr],
-        selectedCardInfo: null
+        selectedCardInfo: null,
+        hideCard: false
     };
 
-    stringSelected = (code) => {
+    stringSelected = (code, bool) => {
         this.setState( {selectedString: code} );
+        this.setState( {hideCard: bool} );
         this.setState( {selectedCardInfo: this.state.productsArrState.filter(item => item.code === code)} );
     };
 
@@ -65,9 +68,14 @@ class Shop extends React.Component {
                         {tableString}
                     </tbody>
                 </table>
+                <input type='button' value='Add new product' className='shop__button-add' disabled={false}/>
                 {
-                    this.state.selectedString &&
+                    (this.state.selectedString && !this.state.hideCard) &&
                     <ProductCard cardInfo={this.state.selectedCardInfo} />
+                }
+                {
+                    (this.state.selectedString && this.state.hideCard) &&
+                    <ReductFrame productInfo={this.state.selectedCardInfo} mode={1}/>
                 }
             </div>
         ); 

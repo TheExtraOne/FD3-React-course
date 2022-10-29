@@ -25,3 +25,8 @@
 .shop__products-list tr:nth-child(even){
 	background: #F7F7F7;
 }
+.shop__button-add {
+    margin: 10px 0px;
+    padding: 2px 5px;
+    cursor: pointer;
+}

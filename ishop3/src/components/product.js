@@ -19,10 +19,10 @@ class Product extends React.Component {
     };
 
     stringClicked = (EO) => {
-        if (EO.target.value === this.props.controlDel || EO.target.value === this.props.controlEdit) {
+        if (EO.target.value === this.props.controlDel) {
             return;
         }
-        this.props.cbSelected(this.props.code);
+        this.props.cbSelected(this.props.code, EO.target.value === this.props.controlEdit);
     };
 
     confirmDelete = () => {
@@ -46,8 +46,8 @@ class Product extends React.Component {
                 </td>
                 <td className='shop__product-rest-amount'>{this.props.howMuchLeft}</td>
                 <td>
-                    <input className='shop__edit-button' type='button' value={this.props.controlEdit} />
-                    <input className='shop__delete-button' type='button' value={this.props.controlDel} onClick={this.confirmDelete} />
+                    <input className='shop__edit-button' type='button' value={this.props.controlEdit} disabled={false} />
+                    <input className='shop__delete-button' type='button' value={this.props.controlDel} onClick={this.confirmDelete} disabled={false}/>
                 </td>
             </tr>
         );
