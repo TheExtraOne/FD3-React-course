@@ -25,7 +25,10 @@
     transform: scale(1.5);
     transition: all 0.3s ease-in;
 }
-.shop__delete-button {
-    padding: 2px 5px;
+.shop__delete-button,
+.shop__edit-button {
+    width: 45px;
+    margin: 0px 2px;
+    padding: 2px;
     cursor: pointer;
 }

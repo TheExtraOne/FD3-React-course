@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Product from './product';
+import ProductCard from './product-card';
 import './shop.css';
 
 class Shop extends React.Component {
@@ -15,7 +16,8 @@ class Shop extends React.Component {
                 bookURL: PropTypes.string.isRequired,
                 howMuchLeft: PropTypes.number.isRequired,
                 code: PropTypes.number.isRequired,
-                control:PropTypes.string.isRequired,
+                control1: PropTypes.string.isRequired,
+                control2: PropTypes.string.isRequired
             })
         ),
         categoryNames: PropTypes.arrayOf(
@@ -28,15 +30,20 @@ class Shop extends React.Component {
 
     state = {
         selectedString: null,
-        productsArrState: [...this.props.productsArr]
+        productsArrState: [...this.props.productsArr],
+        selectedCardInfo: null
     };
 
     stringSelected = (code) => {
-        this.setState( {selectedString:code} );
+        this.setState( {selectedString: code} );
+        this.setState( {selectedCardInfo: this.state.productsArrState.filter(item => item.code === code)} );
     };
 
     deleteProduct = (deletedCode) => {
         this.setState( {productsArrState: this.state.productsArrState.filter(item => item.code !== deletedCode)} );
+        if (deletedCode === this.state.selectedString) {
+            this.setState( {selectedString: null} );
+        }
     };
 
     render() {
@@ -45,7 +52,7 @@ class Shop extends React.Component {
             <Product bookName={item.bookName} bookAuthor={item.bookAuthor} bookPrice={item.bookPrice}
                 bookURL={item.bookURL} howMuchLeft={item.howMuchLeft} code={item.code} key={item.code}
                 isSelected={(this.state.selectedString === item.code)}
-                cbSelected={this.stringSelected} control={item.control} cbDeleteProduct={this.deleteProduct}
+                cbSelected={this.stringSelected} controlEdit={item.control1} controlDel={item.control2} cbDeleteProduct={this.deleteProduct}
             />
         );
 
@@ -58,6 +65,10 @@ class Shop extends React.Component {
                         {tableString}
                     </tbody>
                 </table>
+                {
+                    this.state.selectedString &&
+                    <ProductCard cardInfo={this.state.selectedCardInfo} />
+                }
             </div>
         ); 
     }

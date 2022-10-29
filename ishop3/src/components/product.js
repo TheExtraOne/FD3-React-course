@@ -14,11 +14,12 @@ class Product extends React.Component {
         isSelected: PropTypes.bool.isRequired,
         cbSelected: PropTypes.func.isRequired,
         cbDeleteProduct: PropTypes.func.isRequired,
-        control: PropTypes.string.isRequired
+        controlEdit: PropTypes.string.isRequired,
+        controlDel: PropTypes.string.isRequired
     };
 
     stringClicked = (EO) => {
-        if (EO.target.value === this.props.control) {
+        if (EO.target.value === this.props.controlDel || EO.target.value === this.props.controlEdit) {
             return;
         }
         this.props.cbSelected(this.props.code);
@@ -45,7 +46,8 @@ class Product extends React.Component {
                 </td>
                 <td className='shop__product-rest-amount'>{this.props.howMuchLeft}</td>
                 <td>
-                    <input className='shop__delete-button' type='button' value={this.props.control} onClick={this.confirmDelete} />
+                    <input className='shop__edit-button' type='button' value={this.props.controlEdit} />
+                    <input className='shop__delete-button' type='button' value={this.props.controlDel} onClick={this.confirmDelete} />
                 </td>
             </tr>
         );
