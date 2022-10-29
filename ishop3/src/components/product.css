@@ -1,0 +1,31 @@
+.shop__product-item_selected {
+    background: #c4c3c3 !important;
+}
+.shop__product-item {
+    cursor: pointer;
+}
+.shop__product-name {
+    width: 250px;
+    font: bold 1.2em sans-serif;
+}
+.shop__product-author {
+    width: 160px;
+}
+.shop__product-price,
+.shop__product-rest-amount {
+    width: 100px;
+}
+.shop__product-img {
+    width: 100px;
+    height: auto;
+    margin: 5px;
+    transition: all 0.3s ease-in;
+}
+.shop__product-img:hover {
+    transform: scale(1.5);
+    transition: all 0.3s ease-in;
+}
+.shop__delete-button {
+    padding: 2px 5px;
+    cursor: pointer;
+}
