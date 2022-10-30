@@ -20,7 +20,7 @@ class ProductCard extends React.Component {
     render() {
         return (
             <div className='product-card'>
-                <img className='product-card__img' alt='Product Card' src={this.props.cardInfo[0].bookURL}/>
+                <img className='product-card__img' alt='Product Card' src={require('../'+this.props.cardInfo[0].bookURL)}/>
                 <h3 className='product-card__name'>{this.props.cardInfo[0].bookName}</h3>
                 <h5 className='product-card__author'>{this.props.cardInfo[0].bookAuthor}</h5>
                 <div className='product-card__price'>Цена: {this.props.cardInfo[0].bookPrice} BYN</div>
