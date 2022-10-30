@@ -5,6 +5,7 @@ import './reduct-frame.css';
 
 class ReductFrame extends React.Component {
     static propTypes = {
+        productInfo : PropTypes.array,
         mode: PropTypes.number.isRequired,
         cbDisabledButtons: PropTypes.func.isRequired,
         cbCancel: PropTypes.func.isRequired,
@@ -13,7 +14,7 @@ class ReductFrame extends React.Component {
     };
 
     state = {
-        productArr: (this.props.productInfo)? this.props.productInfo[0] : [],
+        productArr: (this.props.productInfo) ? this.props.productInfo[0] : {},
         name: (this.props.productInfo) ? this.props.productInfo[0].bookName : '',
         author: (this.props.productInfo) ? this.props.productInfo[0].bookAuthor: '',
         price: (this.props.productInfo) ? this.props.productInfo[0].bookPrice : '',
@@ -27,6 +28,10 @@ class ReductFrame extends React.Component {
         buttonSaveDis: (this.props.mode === 2)? true : false
     };
 
+    /*shouldComponentUpdate(nextState){
+        return this.state.value !== nextState.value;
+    };*/
+
     disabledButtons = () => {
         this.setState({buttonSaveDis: true});
     };
@@ -38,6 +43,12 @@ class ReductFrame extends React.Component {
         this.state.productArr.bookURL = this.state.url;
         this.state.productArr.howMuchLeft = parseInt(this.state.howMuchLeft);
 
+        if (!this.props.productInfo) {
+            this.state.productArr.code = this.props.lastCode;
+            this.state.productArr.control1 = 'Edit';
+            this.state.productArr.control2 = 'Delete'
+
+        }
         this.setState({productArr: this.state.productArr}, this.props.cbChangeProductInfo(this.state.productArr));
         this.props.cbDisabledButtons(false);
     };
@@ -138,6 +149,9 @@ class ReductFrame extends React.Component {
     };
 
     render() {
+        //console.log(this.props.productInfo);
+        //console.log(this.state.productArr);
+        //console.log(this.state.name);
         if (this.props.mode === 1) {
             return (
                 <div className='reduct-frame'>

@@ -31,13 +31,13 @@ class Shop extends React.Component {
 
     state = {
         selectedString: null,
-        productsArrState: [...this.props.productsArr],
+        productsArrState: Object.assign([], this.props.productsArr),
         selectedCardInfo: null,
         hideCard: false,
         disableButtons: false,
         canShowCard:true,
         mode: 1,
-        lastProductCode: this.props.productsArr[this.props.productsArr.length - 1].code,
+        lastProductCode: this.props.productsArr.length + 1,
         canCreateNewProduct: false
     };
 
@@ -54,11 +54,15 @@ class Shop extends React.Component {
     };
 
     changeProductInfo = (newProductInfo) => {
-        const newArr = this.state.productsArrState.map((item, i, arr) => {
-            return ((item.code === newProductInfo.code)? arr[i] = newProductInfo: item);
-        });
-
-        this.setState({productsArrState: newArr});
+        if (this.state.mode === 2) {
+            this.state.productsArrState.push(newProductInfo);
+            this.setState({productsArrState: this.state.productsArrState});
+        } else {
+            const newArr = this.state.productsArrState.map((item, i, arr) => {
+                return ((item.code === newProductInfo.code)? arr[i] = newProductInfo: item);
+            });
+            this.setState({productsArrState: newArr});
+        }
     };
 
     createNewProduct = () => {
@@ -87,7 +91,7 @@ class Shop extends React.Component {
     };
 
     deleteProduct = (deletedCode) => {
-        this.setState( {productsArrState: this.state.productsArrState.filter(item => item.code !== deletedCode)} );
+        this.setState( {productsArrState: this.state.productsArrState.filter(item => item.code !== deletedCode)});
         if (deletedCode === this.state.selectedString) {
             this.setState( {selectedString: null} );
         }
@@ -122,7 +126,7 @@ class Shop extends React.Component {
                     ((this.state.selectedString && this.state.hideCard) || this.state.canCreateNewProduct) &&
                     <ReductFrame productInfo={this.state.selectedCardInfo} mode={this.state.mode}
                     cbDisabledButtons={this.disabledButtons} cbCancel={this.cansel}
-                    cbChangeProductInfo={this.changeProductInfo} lastCode={this.state.lastProductCode+1}/>
+                    cbChangeProductInfo={this.changeProductInfo} lastCode={this.state.lastProductCode}/>
                 }
             </div>
         ); 

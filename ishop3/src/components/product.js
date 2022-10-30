@@ -17,16 +17,12 @@ class Product extends React.Component {
         controlEdit: PropTypes.string.isRequired,
         controlDel: PropTypes.string.isRequired,
         areButtonsDisabled: PropTypes.bool.isRequired,
-        //cbChangeMode: PropTypes.func.isRequired
     };
 
     stringClicked = (EO) => {
         if (EO.target.value === this.props.controlDel) {
             return;
         }
-        /*if (EO.target.value === this.props.controlEdit) {
-            this.props.cbChangeMode(1);
-        }*/
         this.props.cbSelected(this.props.code, EO.target.value === this.props.controlEdit);
     };
 
@@ -47,7 +43,7 @@ class Product extends React.Component {
                 <td className='shop__product-author'>{this.props.bookAuthor}</td>
                 <td className='shop__product-price'>{this.props.bookPrice}</td>
                 <td>
-                    <img className='shop__product-img' src={require('../'+this.props.bookURL)} alt='Product' />
+                    <img className='shop__product-img' src={this.props.bookURL} alt='Product' />
                 </td>
                 <td className='shop__product-rest-amount'>{this.props.howMuchLeft}</td>
                 <td>

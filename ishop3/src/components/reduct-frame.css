@@ -1,9 +1,6 @@
 .reduct-frame {
     align-self: flex-start;
 }
-.reduct-frame__name {
-    text-align: center;
-}
 .reduct-frame__label {
     width: 400px;
     display: inline-block;
