@@ -35,7 +35,10 @@ class Shop extends React.Component {
         selectedCardInfo: null,
         hideCard: false,
         disableButtons: false,
-        canShowCard:true
+        canShowCard:true,
+        mode: 1,
+        lastProductCode: this.props.productsArr[this.props.productsArr.length - 1].code,
+        canCreateNewProduct: false
     };
 
     disabledButtons = (bool) => {
@@ -46,6 +49,8 @@ class Shop extends React.Component {
     cansel = () => {
         this.setState( {selectedString: null} );
         this.setState( {hideCard: false} );
+        this.setState( {canCreateNewProduct: false} );
+        this.disabledButtons(false);
     };
 
     changeProductInfo = (newProductInfo) => {
@@ -54,12 +59,28 @@ class Shop extends React.Component {
         });
 
         this.setState({productsArrState: newArr});
-    }
+    };
+
+    createNewProduct = () => {
+        this.changeMode(2);
+        this.setState( {canCreateNewProduct: true} );
+        this.setState( {selectedString: null} );
+        this.setState( {hideCard: false} );
+        this.disabledButtons(true);
+    };
+
+    changeMode = (num) => {
+        this.setState( {mode: num} );
+    };
 
     stringSelected = (code, bool) => {
         if (!this.state.canShowCard) {
             return;
         }
+        if (!bool) {
+            return;
+        }
+        this.changeMode(1);
         this.setState( {selectedString: code} );
         this.setState( {hideCard: bool} );
         this.setState( {selectedCardInfo: this.state.productsArrState.filter(item => item.code === code)} );
@@ -78,7 +99,8 @@ class Shop extends React.Component {
             <Product bookName={item.bookName} bookAuthor={item.bookAuthor} bookPrice={item.bookPrice}
                 bookURL={item.bookURL} howMuchLeft={item.howMuchLeft} code={item.code} key={item.code}
                 isSelected={(this.state.selectedString === item.code)} areButtonsDisabled={this.state.disableButtons}
-                cbSelected={this.stringSelected} controlEdit={item.control1} controlDel={item.control2} cbDeleteProduct={this.deleteProduct}
+                cbSelected={this.stringSelected} controlEdit={item.control1} controlDel={item.control2}
+                cbDeleteProduct={this.deleteProduct} cbChangeMode={this.changeMode}
             />
         );
 
@@ -91,16 +113,16 @@ class Shop extends React.Component {
                         {tableString}
                     </tbody>
                 </table>
-                <input type='button' value='Add new product' className='shop__button-add' disabled={this.state.disableButtons}/>
+                <input type='button' value='Add new product' className='shop__button-add' disabled={this.state.disableButtons} onClick={this.createNewProduct}/>
                 {
                     (this.state.selectedString && !this.state.hideCard) &&
                     <ProductCard cardInfo={this.state.selectedCardInfo} />
                 }
                 {
-                    (this.state.selectedString && this.state.hideCard) &&
-                    <ReductFrame productInfo={this.state.selectedCardInfo} mode={1}
+                    ((this.state.selectedString && this.state.hideCard) || this.state.canCreateNewProduct) &&
+                    <ReductFrame productInfo={this.state.selectedCardInfo} mode={this.state.mode}
                     cbDisabledButtons={this.disabledButtons} cbCancel={this.cansel}
-                    cbChangeProductInfo={this.changeProductInfo}/>
+                    cbChangeProductInfo={this.changeProductInfo} lastCode={this.state.lastProductCode+1}/>
                 }
             </div>
         ); 

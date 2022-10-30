@@ -16,13 +16,17 @@ class Product extends React.Component {
         cbDeleteProduct: PropTypes.func.isRequired,
         controlEdit: PropTypes.string.isRequired,
         controlDel: PropTypes.string.isRequired,
-        areButtonsDisabled: PropTypes.bool.isRequired
+        areButtonsDisabled: PropTypes.bool.isRequired,
+        //cbChangeMode: PropTypes.func.isRequired
     };
 
     stringClicked = (EO) => {
         if (EO.target.value === this.props.controlDel) {
             return;
         }
+        /*if (EO.target.value === this.props.controlEdit) {
+            this.props.cbChangeMode(1);
+        }*/
         this.props.cbSelected(this.props.code, EO.target.value === this.props.controlEdit);
     };
 

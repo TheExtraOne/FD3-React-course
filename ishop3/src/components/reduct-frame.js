@@ -5,35 +5,26 @@ import './reduct-frame.css';
 
 class ReductFrame extends React.Component {
     static propTypes = {
-        productInfo: PropTypes.arrayOf(
-            PropTypes.shape({
-                bookName: PropTypes.string.isRequired,
-                bookAuthor: PropTypes.string.isRequired,
-                bookPrice: PropTypes.number.isRequired,
-                bookURL: PropTypes.string.isRequired,
-                howMuchLeft: PropTypes.number.isRequired,
-                code: PropTypes.number.isRequired,
-            })
-        ),
         mode: PropTypes.number.isRequired,
         cbDisabledButtons: PropTypes.func.isRequired,
         cbCancel: PropTypes.func.isRequired,
-        cbChangeProductInfo: PropTypes.func.isRequired
+        cbChangeProductInfo: PropTypes.func.isRequired,
+        lastCode: PropTypes.number.isRequired
     };
 
     state = {
-        productArr: this.props.productInfo[0],
-        name: this.props.productInfo[0].bookName,
-        author: this.props.productInfo[0].bookAuthor,
-        price: this.props.productInfo[0].bookPrice,
-        url: this.props.productInfo[0].bookURL,
-        howMuchLeft: this.props.productInfo[0].howMuchLeft,
-        nameErrorTextValue: '',
-        authorErrorTextValue: '',
-        priceErrorTextValue: '',
-        urlErrorTextValue: '',
-        howMuchLeftErrorTextValue: '',
-        buttonSaveDis: false
+        productArr: (this.props.productInfo)? this.props.productInfo[0] : [],
+        name: (this.props.productInfo) ? this.props.productInfo[0].bookName : '',
+        author: (this.props.productInfo) ? this.props.productInfo[0].bookAuthor: '',
+        price: (this.props.productInfo) ? this.props.productInfo[0].bookPrice : '',
+        url: (this.props.productInfo) ? this.props.productInfo[0].bookURL : '',
+        howMuchLeft: (this.props.productInfo) ? this.props.productInfo[0].howMuchLeft : '',
+        nameErrorTextValue: (this.props.mode === 2) ? 'Please, fill the field':'',
+        authorErrorTextValue: (this.props.mode === 2) ? 'Please, fill the field':'',
+        priceErrorTextValue: (this.props.mode === 2) ? 'Please, fill the field':'',
+        urlErrorTextValue: (this.props.mode === 2) ? 'Please, fill the field':'',
+        howMuchLeftErrorTextValue: (this.props.mode === 2) ? 'Please, fill the field':'',
+        buttonSaveDis: (this.props.mode === 2)? true : false
     };
 
     disabledButtons = () => {
@@ -56,7 +47,7 @@ class ReductFrame extends React.Component {
             this.setState({name: EO.target.value});
             this.props.cbDisabledButtons(true);
             if (EO.target.validity.valid) {
-                this.setState({nameErrorTextValue: ''});
+                this.setState({nameErrorTextValue: ''}, this.enabledButton);
             } else {
                 this.disabledButtons();
                 if(EO.target.validity.valueMissing) {
@@ -73,12 +64,11 @@ class ReductFrame extends React.Component {
                     this.setState({nameErrorTextValue: 'Value is too short, the min length should be 2'});
                 }
             }
-        }
-        if (EO.target.name === 'author') {
+        } else if (EO.target.name === 'author') {
             this.setState({author: EO.target.value});
             this.props.cbDisabledButtons(true);
             if (EO.target.validity.valid) {
-                this.setState({authorErrorTextValue: ''});
+                this.setState({authorErrorTextValue: ''}, this.enabledButton);
             } else {
                 this.disabledButtons();
                 if(EO.target.validity.valueMissing) {
@@ -89,12 +79,11 @@ class ReductFrame extends React.Component {
                     this.setState({authorErrorTextValue: 'Value is too short, the min length should be 3'});
                 }
             }
-        }
-        if (EO.target.name === 'price') {
+        } else if (EO.target.name === 'price') {
             this.setState({price: EO.target.value});
             this.props.cbDisabledButtons(true);
             if (EO.target.validity.valid) {
-                this.setState({priceErrorTextValue: ''});
+                this.setState({priceErrorTextValue: ''}, this.enabledButton);
             } else {
                 this.disabledButtons();
                 if(EO.target.validity.valueMissing) {
@@ -105,12 +94,11 @@ class ReductFrame extends React.Component {
                     this.setState({priceErrorTextValue: 'Value is too small, price should be atleast 5 BYN'});
                 }
             }
-        }
-        if (EO.target.name === 'url') {
+        } else if (EO.target.name === 'url') {
             this.setState({url: EO.target.value});
             this.props.cbDisabledButtons(true);
             if (EO.target.validity.valid) {
-                this.setState({urlErrorTextValue: ''});
+                this.setState({urlErrorTextValue: ''}, this.enabledButton);
             } else {
                 this.disabledButtons();
                 if(EO.target.validity.valueMissing) {
@@ -121,12 +109,11 @@ class ReductFrame extends React.Component {
                     this.setState({urlErrorTextValue: 'Value is too short, the min length should be 5'});
                 }
             }
-        }
-        if (EO.target.name === 'howMuchLeft') {
+        } else if (EO.target.name === 'howMuchLeft') {
             this.setState({howMuchLeft: EO.target.value});
             this.props.cbDisabledButtons(true);
             if (EO.target.validity.valid) {
-                this.setState({howMuchLeftErrorTextValue: ''});
+                this.setState({howMuchLeftErrorTextValue: ''}, this.enabledButton);
             } else {
                 this.disabledButtons();
                 if(EO.target.validity.valueMissing) {
@@ -138,7 +125,17 @@ class ReductFrame extends React.Component {
                 }
             }
         }
-    }
+    };
+
+    enabledButton = () => {
+        if ( this.state.nameErrorTextValue === '' &&
+            this.state.authorErrorTextValue === '' &&
+            this.state.priceErrorTextValue === '' &&
+            this.state.urlErrorTextValue === '' &&
+            this.state.howMuchLeftErrorTextValue === '') {
+            this.setState({buttonSaveDis: false});
+        }
+    };
 
     render() {
         if (this.props.mode === 1) {
@@ -172,6 +169,41 @@ class ReductFrame extends React.Component {
                     <span className="reduct-frame__error">{this.state.howMuchLeftErrorTextValue}</span>
                     <br/>
                     <input type='button' value='Save' className='reduct-frame__button' disabled={this.state.buttonSaveDis} onClick={this.save}/>
+                    <input type='button' value='Cancel' className='reduct-frame__button' onClick={this.props.cbCancel}/>
+                </div>
+            );
+        }
+        if (this.props.mode === 2) {
+            return (
+                <div className='reduct-frame'>
+                    <h2 className='reduct-frame__name'>Add new product</h2>
+                    <p>ID: {this.props.lastCode}</p>
+                    <label className='reduct-frame__label'>Название книги
+                        <input type='text' name='name' value={this.state.name} className='reduct-frame__input' minLength='2' required onChange={this.checkValidity}/>
+                    </label>
+                    <span className="reduct-frame__error">{this.state.nameErrorTextValue}</span>
+                    <br/>
+                    <label className='reduct-frame__label'>Автор
+                        <input type='text' name='author' value={this.state.author} className='reduct-frame__input' minLength='3' required onChange={this.checkValidity}/>
+                    </label>
+                    <span className="reduct-frame__error">{this.state.authorErrorTextValue}</span>
+                    <br/>
+                    <label className='reduct-frame__label'>Цена
+                        <input type='number' name='price' value={this.state.price} className='reduct-frame__input' required min='5' onChange={this.checkValidity}/>
+                    </label>
+                    <span className="reduct-frame__error">{this.state.priceErrorTextValue}</span>
+                    <br/>
+                    <label className='reduct-frame__label'>URL
+                        <input type='text' name='url' value={this.state.url} className='reduct-frame__input' required minLength='5' onChange={this.checkValidity}/>
+                    </label>
+                    <span className="reduct-frame__error">{this.state.urlErrorTextValue}</span>
+                    <br/>
+                    <label className='reduct-frame__label'>Осталось на складе
+                        <input type='number' name='howMuchLeft' value={this.state.howMuchLeft} className='reduct-frame__input' required min='0' onChange={this.checkValidity}/>
+                    </label>
+                    <span className="reduct-frame__error">{this.state.howMuchLeftErrorTextValue}</span>
+                    <br/>
+                    <input type='button' value='Add' className='reduct-frame__button' disabled={this.state.buttonSaveDis} onClick={this.save}/>
                     <input type='button' value='Cancel' className='reduct-frame__button' onClick={this.props.cbCancel}/>
                 </div>
             );
