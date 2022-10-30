@@ -15,10 +15,14 @@ class ReductFrame extends React.Component {
                 code: PropTypes.number.isRequired,
             })
         ),
-        mode: PropTypes.number.isRequired
+        mode: PropTypes.number.isRequired,
+        cbDisabledButtons: PropTypes.func.isRequired,
+        cbCancel: PropTypes.func.isRequired,
+        cbChangeProductInfo: PropTypes.func.isRequired
     };
 
     state = {
+        productArr: this.props.productInfo[0],
         name: this.props.productInfo[0].bookName,
         author: this.props.productInfo[0].bookAuthor,
         price: this.props.productInfo[0].bookPrice,
@@ -29,14 +33,32 @@ class ReductFrame extends React.Component {
         priceErrorTextValue: '',
         urlErrorTextValue: '',
         howMuchLeftErrorTextValue: '',
+        buttonSaveDis: false
+    };
+
+    disabledButtons = () => {
+        this.setState({buttonSaveDis: true});
+    };
+
+    save = () => {
+        this.state.productArr.bookName = this.state.name;
+        this.state.productArr.bookAuthor = this.state.author;
+        this.state.productArr.bookPrice = parseFloat(this.state.price);
+        this.state.productArr.bookURL = this.state.url;
+        this.state.productArr.howMuchLeft = parseInt(this.state.howMuchLeft);
+
+        this.setState({productArr: this.state.productArr}, this.props.cbChangeProductInfo(this.state.productArr));
+        this.props.cbDisabledButtons(false);
     };
 
     checkValidity = (EO) => {
         if (EO.target.name === 'name') {
             this.setState({name: EO.target.value});
+            this.props.cbDisabledButtons(true);
             if (EO.target.validity.valid) {
                 this.setState({nameErrorTextValue: ''});
             } else {
+                this.disabledButtons();
                 if(EO.target.validity.valueMissing) {
                     // Если поле пустое,
                     // отображаем следующее сообщение об ошибке
@@ -54,9 +76,11 @@ class ReductFrame extends React.Component {
         }
         if (EO.target.name === 'author') {
             this.setState({author: EO.target.value});
+            this.props.cbDisabledButtons(true);
             if (EO.target.validity.valid) {
                 this.setState({authorErrorTextValue: ''});
             } else {
+                this.disabledButtons();
                 if(EO.target.validity.valueMissing) {
                     this.setState({authorErrorTextValue: 'Please, fill the field'});
                 } else if (EO.target.validity.typeMismatch) {
@@ -68,9 +92,11 @@ class ReductFrame extends React.Component {
         }
         if (EO.target.name === 'price') {
             this.setState({price: EO.target.value});
+            this.props.cbDisabledButtons(true);
             if (EO.target.validity.valid) {
                 this.setState({priceErrorTextValue: ''});
             } else {
+                this.disabledButtons();
                 if(EO.target.validity.valueMissing) {
                     this.setState({priceErrorTextValue: 'Please, fill the field'});
                 } else if (EO.target.validity.typeMismatch) {
@@ -82,9 +108,11 @@ class ReductFrame extends React.Component {
         }
         if (EO.target.name === 'url') {
             this.setState({url: EO.target.value});
+            this.props.cbDisabledButtons(true);
             if (EO.target.validity.valid) {
                 this.setState({urlErrorTextValue: ''});
             } else {
+                this.disabledButtons();
                 if(EO.target.validity.valueMissing) {
                     this.setState({urlErrorTextValue: 'Please, fill the field'});
                 } else if (EO.target.validity.typeMismatch) {
@@ -96,9 +124,11 @@ class ReductFrame extends React.Component {
         }
         if (EO.target.name === 'howMuchLeft') {
             this.setState({howMuchLeft: EO.target.value});
+            this.props.cbDisabledButtons(true);
             if (EO.target.validity.valid) {
                 this.setState({howMuchLeftErrorTextValue: ''});
             } else {
+                this.disabledButtons();
                 if(EO.target.validity.valueMissing) {
                     this.setState({howMuchLeftErrorTextValue: 'Please, fill the field'});
                 } else if (EO.target.validity.typeMismatch) {
@@ -141,8 +171,8 @@ class ReductFrame extends React.Component {
                     </label>
                     <span className="reduct-frame__error">{this.state.howMuchLeftErrorTextValue}</span>
                     <br/>
-                    <input type='button' value='Save' className='reduct-frame__button' disabled={false}/>
-                    <input type='button' value='Cancel' className='reduct-frame__button'/>
+                    <input type='button' value='Save' className='reduct-frame__button' disabled={this.state.buttonSaveDis} onClick={this.save}/>
+                    <input type='button' value='Cancel' className='reduct-frame__button' onClick={this.props.cbCancel}/>
                 </div>
             );
         }

@@ -33,10 +33,33 @@ class Shop extends React.Component {
         selectedString: null,
         productsArrState: [...this.props.productsArr],
         selectedCardInfo: null,
-        hideCard: false
+        hideCard: false,
+        disableButtons: false,
+        canShowCard:true
     };
 
+    disabledButtons = (bool) => {
+        this.setState( {disableButtons: bool} );
+        this.setState( {canShowCard: !bool} );
+    };
+
+    cansel = () => {
+        this.setState( {selectedString: null} );
+        this.setState( {hideCard: false} );
+    };
+
+    changeProductInfo = (newProductInfo) => {
+        const newArr = this.state.productsArrState.map((item, i, arr) => {
+            return ((item.code === newProductInfo.code)? arr[i] = newProductInfo: item);
+        });
+
+        this.setState({productsArrState: newArr});
+    }
+
     stringSelected = (code, bool) => {
+        if (!this.state.canShowCard) {
+            return;
+        }
         this.setState( {selectedString: code} );
         this.setState( {hideCard: bool} );
         this.setState( {selectedCardInfo: this.state.productsArrState.filter(item => item.code === code)} );
@@ -54,7 +77,7 @@ class Shop extends React.Component {
         const tableString = this.state.productsArrState.map(item =>
             <Product bookName={item.bookName} bookAuthor={item.bookAuthor} bookPrice={item.bookPrice}
                 bookURL={item.bookURL} howMuchLeft={item.howMuchLeft} code={item.code} key={item.code}
-                isSelected={(this.state.selectedString === item.code)}
+                isSelected={(this.state.selectedString === item.code)} areButtonsDisabled={this.state.disableButtons}
                 cbSelected={this.stringSelected} controlEdit={item.control1} controlDel={item.control2} cbDeleteProduct={this.deleteProduct}
             />
         );
@@ -68,14 +91,16 @@ class Shop extends React.Component {
                         {tableString}
                     </tbody>
                 </table>
-                <input type='button' value='Add new product' className='shop__button-add' disabled={false}/>
+                <input type='button' value='Add new product' className='shop__button-add' disabled={this.state.disableButtons}/>
                 {
                     (this.state.selectedString && !this.state.hideCard) &&
                     <ProductCard cardInfo={this.state.selectedCardInfo} />
                 }
                 {
                     (this.state.selectedString && this.state.hideCard) &&
-                    <ReductFrame productInfo={this.state.selectedCardInfo} mode={1}/>
+                    <ReductFrame productInfo={this.state.selectedCardInfo} mode={1}
+                    cbDisabledButtons={this.disabledButtons} cbCancel={this.cansel}
+                    cbChangeProductInfo={this.changeProductInfo}/>
                 }
             </div>
         ); 

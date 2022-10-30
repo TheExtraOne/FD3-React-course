@@ -15,7 +15,8 @@ class Product extends React.Component {
         cbSelected: PropTypes.func.isRequired,
         cbDeleteProduct: PropTypes.func.isRequired,
         controlEdit: PropTypes.string.isRequired,
-        controlDel: PropTypes.string.isRequired
+        controlDel: PropTypes.string.isRequired,
+        areButtonsDisabled: PropTypes.bool.isRequired
     };
 
     stringClicked = (EO) => {
@@ -46,8 +47,8 @@ class Product extends React.Component {
                 </td>
                 <td className='shop__product-rest-amount'>{this.props.howMuchLeft}</td>
                 <td>
-                    <input className='shop__edit-button' type='button' value={this.props.controlEdit} disabled={false} />
-                    <input className='shop__delete-button' type='button' value={this.props.controlDel} onClick={this.confirmDelete} disabled={false}/>
+                    <input className='shop__edit-button' type='button' value={this.props.controlEdit} disabled={this.props.areButtonsDisabled} />
+                    <input className='shop__delete-button' type='button' value={this.props.controlDel} onClick={this.confirmDelete} disabled={this.props.areButtonsDisabled}/>
                 </td>
             </tr>
         );
