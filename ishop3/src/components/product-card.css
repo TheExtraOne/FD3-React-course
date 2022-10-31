@@ -16,4 +16,5 @@
 .product-card__name,
 .product-card__author {
     margin: 0px;
+    text-align: center;
 }
