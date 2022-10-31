@@ -149,10 +149,9 @@ class ReductFrame extends React.Component {
     };
 
     render() {
-        console.log(this.props.productInfo[0].code);
         if (this.props.mode === 1) {
             return (
-                <div className='reduct-frame' key={this.props.productInfo[0].code}>
+                <div className='reduct-frame'>
                     <h2 className='reduct-frame__name'>Edit existing product</h2>
                     <p>ID: {this.props.productInfo[0].code}</p>
                     <label className='reduct-frame__label'>Название книги
@@ -187,7 +186,7 @@ class ReductFrame extends React.Component {
         }
         if (this.props.mode === 2) {
             return (
-                <div className='reduct-frame' key={this.props.lastCode}>
+                <div className='reduct-frame'>
                     <h2 className='reduct-frame__name'>Add new product</h2>
                     <p>ID: {this.props.lastCode}</p>
                     <label className='reduct-frame__label'>Название книги

@@ -74,6 +74,7 @@ class Shop extends React.Component {
         this.setState( {canCreateNewProduct: true} );
         this.setState( {selectedString: null} );
         this.setState( {hideCard: false} );
+        this.setState( {selectedCardInfo: null} );
         this.disabledButtons(true);
     };
 
@@ -110,6 +111,7 @@ class Shop extends React.Component {
                 cbDeleteProduct={this.deleteProduct} cbChangeMode={this.changeMode}
             />
         );
+
         return (
             <div className='shop'>
                 <h1 className='shop__name'>{this.props.shopName}</h1>
@@ -126,7 +128,8 @@ class Shop extends React.Component {
                 }
                 {
                     ((this.state.selectedString && this.state.hideCard) || this.state.canCreateNewProduct) &&
-                    <ReductFrame productInfo={this.state.selectedCardInfo} mode={this.state.mode}
+                    <ReductFrame key={(this.state.mode===1)?this.state.selectedCardInfo[0].code:this.state.lastProductCode}
+                    productInfo={this.state.selectedCardInfo} mode={this.state.mode}
                     cbDisabledButtons={this.disabledButtons} cbCancel={this.cansel}
                     cbChangeProductInfo={this.changeProductInfo} lastCode={this.state.lastProductCode}
                     cbIncreaseLastCode={this.increaseLastCode}/>
