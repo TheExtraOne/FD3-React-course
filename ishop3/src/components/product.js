@@ -43,7 +43,7 @@ class Product extends React.Component {
                 <td className='shop__product-author'>{this.props.bookAuthor}</td>
                 <td className='shop__product-price'>{this.props.bookPrice}</td>
                 <td>
-                    <img className='shop__product-img' src={this.props.bookURL} alt='Product' />
+                    <img className='shop__product-img' src={(this.props.code < 8) ? require("../"+this.props.bookURL) : this.props.bookURL} alt='Product' />
                 </td>
                 <td className='shop__product-rest-amount'>{this.props.howMuchLeft}</td>
                 <td>

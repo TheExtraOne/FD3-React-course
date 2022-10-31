@@ -10,16 +10,17 @@ class ReductFrame extends React.Component {
         cbDisabledButtons: PropTypes.func.isRequired,
         cbCancel: PropTypes.func.isRequired,
         cbChangeProductInfo: PropTypes.func.isRequired,
-        lastCode: PropTypes.number.isRequired
+        lastCode: PropTypes.number.isRequired,
+        cbIncreaseLastCode: PropTypes.func.isRequired
     };
 
     state = {
-        productObj: (this.props.productInfo) ? this.props.productInfo[0] : {},
-        name: (this.props.productInfo) ? this.props.productInfo[0].bookName : '',
-        author: (this.props.productInfo) ? this.props.productInfo[0].bookAuthor: '',
-        price: (this.props.productInfo) ? this.props.productInfo[0].bookPrice : '',
-        url: (this.props.productInfo) ? this.props.productInfo[0].bookURL : '',
-        howMuchLeft: (this.props.productInfo) ? this.props.productInfo[0].howMuchLeft : '',
+        productObj: (this.props.productInfo) ? Object.assign({}, this.props.productInfo[0]) : {},
+        name: (this.props.productInfo) ? Object.assign({}, this.props.productInfo[0]).bookName : '',
+        author: (this.props.productInfo) ? Object.assign({}, this.props.productInfo[0]).bookAuthor: '',
+        price: (this.props.productInfo) ? Object.assign({}, this.props.productInfo[0]).bookPrice : '',
+        url: (this.props.productInfo) ? Object.assign({}, this.props.productInfo[0]).bookURL : '',
+        howMuchLeft: (this.props.productInfo) ? Object.assign({}, this.props.productInfo[0]).howMuchLeft : '',
         nameErrorTextValue: (this.props.mode === 2) ? 'Please, fill the field':'',
         authorErrorTextValue: (this.props.mode === 2) ? 'Please, fill the field':'',
         priceErrorTextValue: (this.props.mode === 2) ? 'Please, fill the field':'',
@@ -27,13 +28,13 @@ class ReductFrame extends React.Component {
         howMuchLeftErrorTextValue: (this.props.mode === 2) ? 'Please, fill the field':'',
         buttonSaveDis: (this.props.mode === 2)? true : false
     };
-
+    
     disabledButtons = () => {
         this.setState({buttonSaveDis: true});
     };
 
     save = () => {
-        let newObj = this.state.productObj;
+        let newObj = Object.assign({}, this.state.productObj);
         newObj.bookName = this.state.name;
         newObj.bookAuthor = this.state.author;
         newObj.bookPrice = parseFloat(this.state.price);
@@ -46,9 +47,10 @@ class ReductFrame extends React.Component {
             newObj.control2 = 'Delete'
 
         }
-        this.setState({productObj: newObj}, this.props.cbChangeProductInfo(this.state.productObj));
+        this.setState({productObj: newObj}, this.props.cbChangeProductInfo(newObj));
         this.props.cbDisabledButtons(false);
         this.props.cbCancel();
+        this.props.cbIncreaseLastCode();
     };
 
     checkValidity = (EO) => {
@@ -147,7 +149,6 @@ class ReductFrame extends React.Component {
     };
 
     render() {
-
         if (this.props.mode === 1) {
             return (
                 <div className='reduct-frame' key={this.props.productInfo[0].code}>
