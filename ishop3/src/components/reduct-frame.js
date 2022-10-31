@@ -14,7 +14,7 @@ class ReductFrame extends React.Component {
     };
 
     state = {
-        productArr: (this.props.productInfo) ? this.props.productInfo[0] : {},
+        productObj: (this.props.productInfo) ? this.props.productInfo[0] : {},
         name: (this.props.productInfo) ? this.props.productInfo[0].bookName : '',
         author: (this.props.productInfo) ? this.props.productInfo[0].bookAuthor: '',
         price: (this.props.productInfo) ? this.props.productInfo[0].bookPrice : '',
@@ -28,29 +28,27 @@ class ReductFrame extends React.Component {
         buttonSaveDis: (this.props.mode === 2)? true : false
     };
 
-    /*shouldComponentUpdate(nextState){
-        return this.state.value !== nextState.value;
-    };*/
-
     disabledButtons = () => {
         this.setState({buttonSaveDis: true});
     };
 
     save = () => {
-        this.state.productArr.bookName = this.state.name;
-        this.state.productArr.bookAuthor = this.state.author;
-        this.state.productArr.bookPrice = parseFloat(this.state.price);
-        this.state.productArr.bookURL = this.state.url;
-        this.state.productArr.howMuchLeft = parseInt(this.state.howMuchLeft);
+        let newObj = this.state.productObj;
+        newObj.bookName = this.state.name;
+        newObj.bookAuthor = this.state.author;
+        newObj.bookPrice = parseFloat(this.state.price);
+        newObj.bookURL = this.state.url;
+        newObj.howMuchLeft = parseInt(this.state.howMuchLeft);
 
         if (!this.props.productInfo) {
-            this.state.productArr.code = this.props.lastCode;
-            this.state.productArr.control1 = 'Edit';
-            this.state.productArr.control2 = 'Delete'
+            newObj.code = this.props.lastCode;
+            newObj.control1 = 'Edit';
+            newObj.control2 = 'Delete'
 
         }
-        this.setState({productArr: this.state.productArr}, this.props.cbChangeProductInfo(this.state.productArr));
+        this.setState({productObj: newObj}, this.props.cbChangeProductInfo(this.state.productObj));
         this.props.cbDisabledButtons(false);
+        this.props.cbCancel();
     };
 
     checkValidity = (EO) => {
@@ -149,12 +147,10 @@ class ReductFrame extends React.Component {
     };
 
     render() {
-        //console.log(this.props.productInfo);
-        //console.log(this.state.productArr);
-        //console.log(this.state.name);
+
         if (this.props.mode === 1) {
             return (
-                <div className='reduct-frame'>
+                <div className='reduct-frame' key={this.props.productInfo[0].code}>
                     <h2 className='reduct-frame__name'>Edit existing product</h2>
                     <p>ID: {this.props.productInfo[0].code}</p>
                     <label className='reduct-frame__label'>Название книги
@@ -189,7 +185,7 @@ class ReductFrame extends React.Component {
         }
         if (this.props.mode === 2) {
             return (
-                <div className='reduct-frame'>
+                <div className='reduct-frame' key={this.props.lastCode}>
                     <h2 className='reduct-frame__name'>Add new product</h2>
                     <p>ID: {this.props.lastCode}</p>
                     <label className='reduct-frame__label'>Название книги

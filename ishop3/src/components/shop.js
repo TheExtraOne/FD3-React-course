@@ -81,10 +81,9 @@ class Shop extends React.Component {
         if (!this.state.canShowCard) {
             return;
         }
-        if (!bool) {
-            return;
+        if (bool) {
+            this.changeMode(1);
         }
-        this.changeMode(1);
         this.setState( {selectedString: code} );
         this.setState( {hideCard: bool} );
         this.setState( {selectedCardInfo: this.state.productsArrState.filter(item => item.code === code)} );
