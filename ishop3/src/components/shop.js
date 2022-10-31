@@ -41,6 +41,10 @@ class Shop extends React.Component {
         canCreateNewProduct: false
     };
 
+    increaseLastCode = () => {
+        this.setState( {lastProductCode: this.state.lastProductCode+1} );
+    };
+
     disabledButtons = (bool) => {
         this.setState( {disableButtons: bool} );
         this.setState( {canShowCard: !bool} );
@@ -81,10 +85,9 @@ class Shop extends React.Component {
         if (!this.state.canShowCard) {
             return;
         }
-        if (!bool) {
-            return;
+        if (bool) {
+            this.changeMode(1);
         }
-        this.changeMode(1);
         this.setState( {selectedString: code} );
         this.setState( {hideCard: bool} );
         this.setState( {selectedCardInfo: this.state.productsArrState.filter(item => item.code === code)} );
@@ -107,7 +110,6 @@ class Shop extends React.Component {
                 cbDeleteProduct={this.deleteProduct} cbChangeMode={this.changeMode}
             />
         );
-
         return (
             <div className='shop'>
                 <h1 className='shop__name'>{this.props.shopName}</h1>
@@ -126,7 +128,8 @@ class Shop extends React.Component {
                     ((this.state.selectedString && this.state.hideCard) || this.state.canCreateNewProduct) &&
                     <ReductFrame productInfo={this.state.selectedCardInfo} mode={this.state.mode}
                     cbDisabledButtons={this.disabledButtons} cbCancel={this.cansel}
-                    cbChangeProductInfo={this.changeProductInfo} lastCode={this.state.lastProductCode}/>
+                    cbChangeProductInfo={this.changeProductInfo} lastCode={this.state.lastProductCode}
+                    cbIncreaseLastCode={this.increaseLastCode}/>
                 }
             </div>
         ); 

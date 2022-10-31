@@ -10,16 +10,17 @@ class ReductFrame extends React.Component {
         cbDisabledButtons: PropTypes.func.isRequired,
         cbCancel: PropTypes.func.isRequired,
         cbChangeProductInfo: PropTypes.func.isRequired,
-        lastCode: PropTypes.number.isRequired
+        lastCode: PropTypes.number.isRequired,
+        cbIncreaseLastCode: PropTypes.func.isRequired
     };
 
     state = {
-        productArr: (this.props.productInfo) ? this.props.productInfo[0] : {},
-        name: (this.props.productInfo) ? this.props.productInfo[0].bookName : '',
-        author: (this.props.productInfo) ? this.props.productInfo[0].bookAuthor: '',
-        price: (this.props.productInfo) ? this.props.productInfo[0].bookPrice : '',
-        url: (this.props.productInfo) ? this.props.productInfo[0].bookURL : '',
-        howMuchLeft: (this.props.productInfo) ? this.props.productInfo[0].howMuchLeft : '',
+        productObj: (this.props.productInfo) ? Object.assign({}, this.props.productInfo[0]) : {},
+        name: (this.props.productInfo) ? Object.assign({}, this.props.productInfo[0]).bookName : '',
+        author: (this.props.productInfo) ? Object.assign({}, this.props.productInfo[0]).bookAuthor: '',
+        price: (this.props.productInfo) ? Object.assign({}, this.props.productInfo[0]).bookPrice : '',
+        url: (this.props.productInfo) ? Object.assign({}, this.props.productInfo[0]).bookURL : '',
+        howMuchLeft: (this.props.productInfo) ? Object.assign({}, this.props.productInfo[0]).howMuchLeft : '',
         nameErrorTextValue: (this.props.mode === 2) ? 'Please, fill the field':'',
         authorErrorTextValue: (this.props.mode === 2) ? 'Please, fill the field':'',
         priceErrorTextValue: (this.props.mode === 2) ? 'Please, fill the field':'',
@@ -27,30 +28,29 @@ class ReductFrame extends React.Component {
         howMuchLeftErrorTextValue: (this.props.mode === 2) ? 'Please, fill the field':'',
         buttonSaveDis: (this.props.mode === 2)? true : false
     };
-
-    /*shouldComponentUpdate(nextState){
-        return this.state.value !== nextState.value;
-    };*/
-
+    
     disabledButtons = () => {
         this.setState({buttonSaveDis: true});
     };
 
     save = () => {
-        this.state.productArr.bookName = this.state.name;
-        this.state.productArr.bookAuthor = this.state.author;
-        this.state.productArr.bookPrice = parseFloat(this.state.price);
-        this.state.productArr.bookURL = this.state.url;
-        this.state.productArr.howMuchLeft = parseInt(this.state.howMuchLeft);
+        let newObj = Object.assign({}, this.state.productObj);
+        newObj.bookName = this.state.name;
+        newObj.bookAuthor = this.state.author;
+        newObj.bookPrice = parseFloat(this.state.price);
+        newObj.bookURL = this.state.url;
+        newObj.howMuchLeft = parseInt(this.state.howMuchLeft);
 
         if (!this.props.productInfo) {
-            this.state.productArr.code = this.props.lastCode;
-            this.state.productArr.control1 = 'Edit';
-            this.state.productArr.control2 = 'Delete'
+            newObj.code = this.props.lastCode;
+            newObj.control1 = 'Edit';
+            newObj.control2 = 'Delete'
 
         }
-        this.setState({productArr: this.state.productArr}, this.props.cbChangeProductInfo(this.state.productArr));
+        this.setState({productObj: newObj}, this.props.cbChangeProductInfo(newObj));
         this.props.cbDisabledButtons(false);
+        this.props.cbCancel();
+        this.props.cbIncreaseLastCode();
     };
 
     checkValidity = (EO) => {
@@ -149,12 +149,10 @@ class ReductFrame extends React.Component {
     };
 
     render() {
-        //console.log(this.props.productInfo);
-        //console.log(this.state.productArr);
-        //console.log(this.state.name);
+        console.log(this.props.productInfo[0].code);
         if (this.props.mode === 1) {
             return (
-                <div className='reduct-frame'>
+                <div className='reduct-frame' key={this.props.productInfo[0].code}>
                     <h2 className='reduct-frame__name'>Edit existing product</h2>
                     <p>ID: {this.props.productInfo[0].code}</p>
                     <label className='reduct-frame__label'>Название книги
@@ -189,7 +187,7 @@ class ReductFrame extends React.Component {
         }
         if (this.props.mode === 2) {
             return (
-                <div className='reduct-frame'>
+                <div className='reduct-frame' key={this.props.lastCode}>
                     <h2 className='reduct-frame__name'>Add new product</h2>
                     <p>ID: {this.props.lastCode}</p>
                     <label className='reduct-frame__label'>Название книги
