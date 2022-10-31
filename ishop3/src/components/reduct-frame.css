@@ -1,0 +1,21 @@
+.reduct-frame {
+    align-self: flex-start;
+}
+.reduct-frame__label {
+    width: 400px;
+    display: inline-block;
+}
+.reduct-frame__input {
+    float: right;
+}
+.reduct-frame__button {
+    margin: 10px 5px 0px 0px;
+    padding: 2px 5px;
+    cursor: pointer;
+}
+.reduct-frame__error {
+    margin-left: 10px;
+    padding: 2px;
+    font-size: 80%;
+    color: red;
+}

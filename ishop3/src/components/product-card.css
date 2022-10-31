@@ -1,0 +1,20 @@
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 220px;
+    height: 300px;
+    margin: 10px;
+    border: solid 2px black;
+    border-radius: 5px;
+}
+.product-card__img {
+    width: 100px;
+    height: auto;
+}
+.product-card__name,
+.product-card__author {
+    margin: 0px;
+    text-align: center;
+}

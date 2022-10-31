@@ -1,0 +1,32 @@
+.shop {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px 5px;
+}
+.shop__name{
+    font: bold 3.5em sans-serif;
+    margin: 10px 0px 50px 0px;
+}
+.shop__products-list{
+    border-collapse: collapse;
+    border: 1px solid #eee;
+    text-align: center;
+}
+.shop__products-list td{
+    border: 1px solid #dddddd;
+    padding: 10px;
+}
+.shop__products-listtr:nth-child(odd){
+	background: #fff;
+}
+.shop__products-list tr:nth-child(even){
+	background: #F7F7F7;
+}
+.shop__button-add {
+    margin: 10px 0px;
+    padding: 2px 5px;
+    cursor: pointer;
+}
