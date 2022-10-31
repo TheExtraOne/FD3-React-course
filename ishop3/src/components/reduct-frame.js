@@ -149,6 +149,7 @@ class ReductFrame extends React.Component {
     };
 
     render() {
+        console.log(this.props.productInfo[0].code);
         if (this.props.mode === 1) {
             return (
                 <div className='reduct-frame' key={this.props.productInfo[0].code}>
