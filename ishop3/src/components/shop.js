@@ -46,21 +46,19 @@ class Shop extends React.Component {
     };
 
     disabledButtons = (bool) => {
-        this.setState( {disableButtons: bool} );
-        this.setState( {canShowCard: !bool} );
+        this.setState( {disableButtons: bool, canShowCard: !bool} );
     };
 
     cansel = () => {
-        this.setState( {selectedString: null} );
-        this.setState( {hideCard: false} );
-        this.setState( {canCreateNewProduct: false} );
+        this.setState( {selectedString: null, hideCard: false, canCreateNewProduct: false} );
         this.disabledButtons(false);
     };
 
     changeProductInfo = (newProductInfo) => {
         if (this.state.mode === 2) {
-            this.state.productsArrState.push(newProductInfo);
-            this.setState({productsArrState: this.state.productsArrState});
+            let copyArrState = [...this.state.productsArrState];
+            copyArrState.push(newProductInfo);
+            this.setState({productsArrState: copyArrState});
         } else {
             const newArr = this.state.productsArrState.map((item, i, arr) => {
                 return ((item.code === newProductInfo.code)? arr[i] = newProductInfo: item);
@@ -71,10 +69,7 @@ class Shop extends React.Component {
 
     createNewProduct = () => {
         this.changeMode(2);
-        this.setState( {canCreateNewProduct: true} );
-        this.setState( {selectedString: null} );
-        this.setState( {hideCard: false} );
-        this.setState( {selectedCardInfo: null} );
+        this.setState( {canCreateNewProduct: true, selectedString: null, hideCard: false, selectedCardInfo: null} );
         this.disabledButtons(true);
     };
 
@@ -89,8 +84,7 @@ class Shop extends React.Component {
         if (bool) {
             this.changeMode(1);
         }
-        this.setState( {selectedString: code} );
-        this.setState( {hideCard: bool} );
+        this.setState( {selectedString: code, hideCard: bool} );
         this.setState( {selectedCardInfo: this.state.productsArrState.filter(item => item.code === code)} );
     };
 
