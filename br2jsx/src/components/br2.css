@@ -1,0 +1,8 @@
+.central-block {
+    background-color: #4d7575;
+    text-align: center;
+    color: white;
+    width: 10%;
+    margin: 20px auto;
+    padding: 10px;
+}
