@@ -5,11 +5,9 @@ import './rainbow-frame.css';
 class RainbowFrame extends React.Component {
 
     render() {
-        let tag = <div style={{border:"solid 10px "+ this.props.colors[0], padding:"10px"}}>{this.props.children}</div>;
+        let tag = this.props.children;
 
-        let createRecurTag = (color) => {tag = <div style={{border:"solid 10px "+ color, padding:"10px"}}>{tag}</div>};
-
-        this.props.colors.forEach((color) => createRecurTag(color));
+        this.props.colors.forEach( color => tag = <div style={{border:"solid 10px "+ color, padding:"10px"}}>{tag}</div> );
 
         return (tag);
     }
