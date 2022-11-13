@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import './mobile-company.css';
 import MobileClient from './mobile-client';
+import ClientFrame from './client-frame';
 
 import {clientEvents} from './clientEvets';
 
@@ -28,52 +29,138 @@ class MobileCompany extends React.PureComponent {
     state = {
         clients: this.props.clients,
         notDeletedClients: this.props.clients,
+        showClientFrame: false,
+        clientFrameMode: 1, //1 -change, 2- add new client
+        clientFrameInfo: null,
+        whichFilter: 1, //1 -all, 2-active, 3-blocked
     };
 
     filterActive = () => {
-        let newClients = this.state.clients.filter( client => client.balance >= 0 );
-        this.setState( {clients:newClients} );
+        let newClients = this.state.notDeletedClients.filter( client => client.balance >= 0 );
+        this.setState( {clients:newClients,
+            whichFilter:2} );
     };
 
     filterBlocked = () => {
-        let newClients = this.state.clients.filter( client => client.balance < 0 );
-        this.setState( {clients:newClients} );
+        let newClients = this.state.notDeletedClients.filter( client => client.balance < 0 );
+        this.setState( {clients:newClients,
+            whichFilter:3} );
     };
 
     filterAll = () => {
-        this.setState( {clients:this.state.notDeletedClients} );
+        this.setState( {clients:this.state.notDeletedClients,
+            whichFilter:1} );
     };
 
     deleteUser = (id) => {
-        this.setState( 
-            {notDeletedClients: this.state.notDeletedClients.filter(client => client.id !== id),
-            clients: this.state.notDeletedClients.filter(client => client.id !== id)});
+        let newClients;
+
+        if (this.state.whichFilter === 1) {
+            newClients = this.state.notDeletedClients.filter(client => client.id !== id);
+        }
+        if (this.state.whichFilter === 2) {
+            newClients = this.state.notDeletedClients.filter(client => client.id !== id && client.balance >= 0);
+        }
+        if (this.state.whichFilter === 3) {
+            newClients = this.state.notDeletedClients.filter(client => client.id !== id && client.balance < 0);
+        }
+        
+        this.setState({
+            notDeletedClients: this.state.notDeletedClients.filter(client => client.id !== id),
+            clients: newClients});
     };
+
+    editUser = (clientInfo) => {
+        this.setState({
+            showClientFrame: true,
+            clientFrameMode:1,
+            clientFrameInfo: clientInfo})
+    };
+
+    canselFrame = () => {
+        this.setState({
+            showClientFrame:false,
+            clientFrameInfo: null},
+            this.updateClientsInfo)
+    };
+
+    updateClientsInfo = () => {
+        let newClients;
+
+        if (this.state.whichFilter === 1) {
+            newClients = this.state.notDeletedClients;
+        }
+        if (this.state.whichFilter === 2) {
+            newClients = this.state.notDeletedClients.filter(client => client.balance >= 0);
+        }
+        if (this.state.whichFilter === 3) {
+            newClients = this.state.notDeletedClients.filter(client => client.balance < 0);
+        }
+
+        this.setState({clients: newClients})
+    };
+
+    updateClientInfo = (id, familia, name, otches, money) => {
+        let changed = false;
+        let newClientsNotDel = [...this.state.notDeletedClients];
+
+        newClientsNotDel.forEach( (client,i) => {
+            if (client.id === id) {
+                let newClient = {...client}; // копия хэша изменившегося клиента
+
+                newClient.fam = familia;
+                newClient.im = name;
+                newClient.otch = otches;
+                newClient.balance = money;
+                
+                newClientsNotDel[i] = newClient;
+                changed = true;
+            }
+        });
+
+        if (changed) {
+            this.setState({notDeletedClients: newClientsNotDel},this.canselFrame);
+        }
+    }
 
     componentDidMount = () => {
         clientEvents.addListener('EDeleteClicked', this.deleteUser);
+        clientEvents.addListener('EEditClicked', this.editUser);
+        clientEvents.addListener('ECanselClicked', this.canselFrame);
+        clientEvents.addListener('ESaveClicked', this.updateClientInfo);
     };
 
     componentWillUnmount = () => {
         clientEvents.removeListener('EDeleteClicked', this.deleteUser);
-    }
+        clientEvents.removeListener('EEditClicked', this.editUser);
+        clientEvents.removeListener('ECanselClicked', this.canselFrame);
+        clientEvents.removeListener('ESaveClicked', this.updateClientInfo);
+    };
 
     render() {
         console.log("MobileCompany render");
 
         const tableCapture = this.props.categoryNames.map( item => <td key={item.code}>{item.part}</td> );
         const tableString = this.state.clients.map( client => {
-            let clientInfo = {id:client.id, fam:client.fam, im:client.im, otch:client.otch, balance:client.balance};
             return <MobileClient 
                 key={client.id} 
-                clientInfo={clientInfo}  />;
+                clientInfo={client}  />;
         });
 
         return (
             <div className='company'>
-                <button className='company__button' onClick={this.filterAll}>Все</button>
-                <button className='company__button' onClick={this.filterActive}>Активные</button>
-                <button className='company__button' onClick={this.filterBlocked}>Заблокированные</button>
+                <button className={ (this.state.whichFilter === 1) ? 'company__button company__button_chosen' : 'company__button'}
+                    onClick={this.filterAll}>
+                        Все
+                </button>
+                <button className={ (this.state.whichFilter === 2) ? 'company__button company__button_chosen' : 'company__button'}
+                    onClick={this.filterActive}>
+                        Активные
+                </button>
+                <button className={ (this.state.whichFilter === 3) ? 'company__button company__button_chosen' : 'company__button'}
+                    onClick={this.filterBlocked}>
+                        Заблокированные
+                </button>
 
                 <table className='company__clients'>
                     <tbody>
@@ -83,6 +170,14 @@ class MobileCompany extends React.PureComponent {
                 </table>
 
                 <button className='company__button'>Добавить клиента</button>
+
+                {
+                    (this.state.showClientFrame) &&
+                    <ClientFrame
+                        clientInfo={this.state.clientFrameInfo}
+                        mode={this.state.clientFrameMode}
+                        key={this.state.clientFrameInfo.id}/>
+                }
             </div>
         );
     }
