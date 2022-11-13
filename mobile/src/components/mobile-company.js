@@ -137,7 +137,7 @@ class MobileCompany extends React.PureComponent {
         } else {
             newClientsNotDel.push({id:this.state.nextID, fam:familia, im:name, otch:otches, balance:money});
             this.setState({notDeletedClients: newClientsNotDel,
-                nextID: this.state.nextID++},
+                nextID: this.state.nextID+1}, //если написать nextID: this.state.nextID++, то ругается, что я изменяю напрямую
                 this.canselFrame);
         }
     }
