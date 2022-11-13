@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './mobile-client.css';
+import {clientEvents} from './clientEvets';
 
 class MobileClient extends React.PureComponent {
     static propTypes = {
@@ -22,6 +23,10 @@ class MobileClient extends React.PureComponent {
         isActive: (this.props.clientInfo.balance >= 0)
     };
 
+    deleteClicked = () => {
+        clientEvents.emit('EDeleteClicked', this.props.clientInfo.id);
+    }
+
     render() {
         console.log(`MobileClient ${this.state.fam} render`);
 
@@ -38,7 +43,7 @@ class MobileClient extends React.PureComponent {
                     <button className='client__button'>Редактировать</button>
                 </td>
                 <td>
-                    <button className='client__button'>Удалить</button>
+                    <button className='client__button' onClick={this.deleteClicked}>Удалить</button>
                 </td>
             </tr>
         );
