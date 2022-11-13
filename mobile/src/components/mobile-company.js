@@ -33,6 +33,7 @@ class MobileCompany extends React.PureComponent {
         clientFrameMode: 1, //1 -change, 2- add new client
         clientFrameInfo: null,
         whichFilter: 1, //1 -all, 2-active, 3-blocked
+        nextID: this.props.clients.length + 1,
     };
 
     filterActive = () => {
@@ -55,6 +56,8 @@ class MobileCompany extends React.PureComponent {
     deleteUser = (id) => {
         let newClients;
 
+        //Все if для того, чтобы сразу после удаления пользователя, список оставшихся
+        //можно было отсортировать в зависимости от ранее выбранного фильтра
         if (this.state.whichFilter === 1) {
             newClients = this.state.notDeletedClients.filter(client => client.id !== id);
         }
@@ -77,6 +80,12 @@ class MobileCompany extends React.PureComponent {
             clientFrameInfo: clientInfo})
     };
 
+    createClient = () => {
+        this.setState({
+            showClientFrame: true,
+            clientFrameMode:2})
+    };
+
     canselFrame = () => {
         this.setState({
             showClientFrame:false,
@@ -86,7 +95,8 @@ class MobileCompany extends React.PureComponent {
 
     updateClientsInfo = () => {
         let newClients;
-
+        //Все if для того, чтобы сразу после изменения пользователя, список
+        //можно было отсортировать в зависимости от ранее выбранного фильтра
         if (this.state.whichFilter === 1) {
             newClients = this.state.notDeletedClients;
         }
@@ -101,25 +111,34 @@ class MobileCompany extends React.PureComponent {
     };
 
     updateClientInfo = (id, familia, name, otches, money) => {
-        let changed = false;
         let newClientsNotDel = [...this.state.notDeletedClients];
+        //изменение уже существующего
+        if (this.state.clientFrameMode === 1) {
+            let changed = false;
 
-        newClientsNotDel.forEach( (client,i) => {
-            if (client.id === id) {
-                let newClient = {...client}; // копия хэша изменившегося клиента
+            newClientsNotDel.forEach( (client,i) => {
+                if (client.id === id) {
+                    let newClient = {...client}; // копия хэша изменившегося клиента
 
-                newClient.fam = familia;
-                newClient.im = name;
-                newClient.otch = otches;
-                newClient.balance = money;
-                
-                newClientsNotDel[i] = newClient;
-                changed = true;
+                    newClient.fam = familia;
+                    newClient.im = name;
+                    newClient.otch = otches;
+                    newClient.balance = money;
+                    
+                    newClientsNotDel[i] = newClient;
+                    changed = true;
+                }
+            });
+
+            if (changed) {
+                this.setState({notDeletedClients: newClientsNotDel},this.canselFrame);
             }
-        });
-
-        if (changed) {
-            this.setState({notDeletedClients: newClientsNotDel},this.canselFrame);
+        //добавление нового
+        } else {
+            newClientsNotDel.push({id:this.state.nextID, fam:familia, im:name, otch:otches, balance:money});
+            this.setState({notDeletedClients: newClientsNotDel,
+                nextID: this.state.nextID++},
+                this.canselFrame);
         }
     }
 
@@ -169,14 +188,19 @@ class MobileCompany extends React.PureComponent {
                     </tbody>
                 </table>
 
-                <button className='company__button'>Добавить клиента</button>
+                <button className='company__button' onClick={this.createClient}>Добавить клиента</button>
 
                 {
-                    (this.state.showClientFrame) &&
+                    (this.state.showClientFrame && this.state.clientFrameMode === 1) &&
                     <ClientFrame
                         clientInfo={this.state.clientFrameInfo}
                         mode={this.state.clientFrameMode}
                         key={this.state.clientFrameInfo.id}/>
+                }
+
+                {
+                    (this.state.showClientFrame && this.state.clientFrameMode === 2) &&
+                    <ClientFrame mode={this.state.clientFrameMode}/>
                 }
             </div>
         );

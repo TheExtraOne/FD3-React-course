@@ -32,8 +32,8 @@ class MobileClient extends React.PureComponent {
     }
 
     componentDidUpdate = (oldProps, oldState) => {
-        if ( this.props.clientInfo.balance !== this.state.balance ) {
-            this.setState({balance:this.props.clientInfo.balance});
+        if ( this.props.clientInfo.im !== this.state.im ) {
+            this.setState({im:this.props.clientInfo.im});
         }
         if ( this.props.clientInfo.fam !== this.state.fam ) {
             this.setState({fam:this.props.clientInfo.fam});
