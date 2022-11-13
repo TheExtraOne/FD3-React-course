@@ -25,7 +25,27 @@ class MobileClient extends React.PureComponent {
 
     deleteClicked = () => {
         clientEvents.emit('EDeleteClicked', this.props.clientInfo.id);
+    };
+
+    editClicked = () => {
+        clientEvents.emit('EEditClicked', this.props.clientInfo);
     }
+
+    componentDidUpdate = (oldProps, oldState) => {
+        if ( this.props.clientInfo.im !== this.state.im ) {
+            this.setState({im:this.props.clientInfo.im});
+        }
+        if ( this.props.clientInfo.fam !== this.state.fam ) {
+            this.setState({fam:this.props.clientInfo.fam});
+        }
+        if ( this.props.clientInfo.otch !== this.state.otch ) {
+            this.setState({otch:this.props.clientInfo.otch});
+        }
+        if ( this.props.clientInfo.balance !== this.state.balance ) {
+            this.setState({balance:this.props.clientInfo.balance,
+                isActive: (this.props.clientInfo.balance >= 0)});
+        }
+    };
 
     render() {
         console.log(`MobileClient ${this.state.fam} render`);
@@ -40,7 +60,7 @@ class MobileClient extends React.PureComponent {
                     {(this.state.isActive) ? 'Active' : 'Blocked'}
                 </td>
                 <td>
-                    <button className='client__button'>Редактировать</button>
+                    <button className='client__button' onClick={this.editClicked}>Редактировать</button>
                 </td>
                 <td>
                     <button className='client__button' onClick={this.deleteClicked}>Удалить</button>
