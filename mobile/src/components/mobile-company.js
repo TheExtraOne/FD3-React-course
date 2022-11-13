@@ -27,6 +27,7 @@ class MobileCompany extends React.PureComponent {
 
     state = {
         clients: this.props.clients,
+        notDeletedClients: this.props.clients,
     };
 
     filterActive = () => {
@@ -35,13 +36,27 @@ class MobileCompany extends React.PureComponent {
     };
 
     filterBlocked = () => {
-        let newClients = this.props.clients.filter( client => client.balance < 0 );
+        let newClients = this.state.clients.filter( client => client.balance < 0 );
         this.setState( {clients:newClients} );
     };
 
     filterAll = () => {
-        this.setState( {clients:this.props.clients} );
+        this.setState( {clients:this.state.notDeletedClients} );
     };
+
+    deleteUser = (id) => {
+        this.setState( 
+            {notDeletedClients: this.state.notDeletedClients.filter(client => client.id !== id),
+            clients: this.state.notDeletedClients.filter(client => client.id !== id)});
+    };
+
+    componentDidMount = () => {
+        clientEvents.addListener('EDeleteClicked', this.deleteUser);
+    };
+
+    componentWillUnmount = () => {
+        clientEvents.removeListener('EDeleteClicked', this.deleteUser);
+    }
 
     render() {
         console.log("MobileCompany render");
