@@ -26,25 +26,6 @@ class ClientFrame extends React.PureComponent {
 
     state = {
         id: (this.props.mode === 1) ? this.props.clientInfo.id : null,
-        fam: (this.props.mode === 1) ? this.props.clientInfo.fam : null,
-        im: (this.props.mode === 1) ? this.props.clientInfo.im : null,
-        otch: (this.props.mode === 1) ? this.props.clientInfo.otch : null,
-        balance: (this.props.mode === 1) ? this.props.clientInfo.balance : null,
-    };
-
-    setNewInfo = () => {
-        if (this.famRef.current) {
-            this.setState({fam: this.famRef.current.value})
-        }
-        if (this.nameRef.current) {
-            this.setState({im: this.nameRef.current.value})
-        }
-        if (this.otchRef.current) {
-            this.setState({otch: this.otchRef.current.value})
-        }
-        if (this.balRef.current) {
-            this.setState({balance: this.balRef.current.value})
-        }
     };
 
     cancelClicked = () => {
@@ -52,34 +33,38 @@ class ClientFrame extends React.PureComponent {
     };
 
     saveClicked = () => {
-        clientEvents.emit('ESaveClicked',
-        this.state.id, this.state.fam, this.state.im, this.state.otch, parseFloat(this.state.balance));
+        if (this.famRef.current && this.nameRef.current && this.otchRef.current && this.balRef.current) {
+            clientEvents.emit('ESaveClicked',
+            this.state.id, this.famRef.current.value,
+            this.nameRef.current.value, this.otchRef.current.value,
+            parseFloat(this.balRef.current.value));
+        }
     }
 
     render() {
         console.log("ClientFrame render");
 
         return (
-            <div className='client-frame' onChange={this.setNewInfo}>
+            <div className='client-frame'>
                 {(this.props.mode === 1) && 
                 <Fragment>
                         <label className='client-frame__label'>Фамилия
-                            <input type='text' defaultValue={this.state.fam} 
+                            <input type='text' defaultValue={this.props.clientInfo.fam} 
                             className='client-frame__info-string' ref={this.famRef}/>
                         </label>
                         <br/>
                         <label className='client-frame__label'>Имя
-                            <input type='text' defaultValue={this.state.im}
+                            <input type='text' defaultValue={this.props.clientInfo.im}
                             className='client-frame__info-string' ref={this.nameRef}/>
                         </label>
                         <br/>
                         <label className='client-frame__label'>Отчество
-                            <input type='text' defaultValue={this.state.otch}
+                            <input type='text' defaultValue={this.props.clientInfo.otch}
                             className='client-frame__info-string' ref={this.otchRef}/>
                         </label>
                         <br/>
                         <label className='client-frame__label'>Баланс
-                            <input type='naumber' defaultValue={this.state.balance}
+                            <input type='naumber' defaultValue={this.props.clientInfo.balance}
                             className='client-frame__info-string' ref={this.balRef}/>
                         </label>
                         <br/>
@@ -88,22 +73,22 @@ class ClientFrame extends React.PureComponent {
                 {(this.props.mode === 2) && 
                     <Fragment>
                         <label className='client-frame__label'>Фамилия
-                            <input type='text' defaultValue={this.state.fam} 
+                            <input type='text' defaultValue={null} 
                             className='client-frame__info-string' ref={this.famRef}/>
                         </label>
                         <br/>
                         <label className='client-frame__label'>Имя
-                            <input type='text' defaultValue={this.state.im}
+                            <input type='text' defaultValue={null}
                             className='client-frame__info-string' ref={this.nameRef}/>
                         </label>
                         <br/>
                         <label className='client-frame__label'>Отчество
-                            <input type='text' defaultValue={this.state.otch}
+                            <input type='text' defaultValue={null}
                             className='client-frame__info-string' ref={this.otchRef}/>
                         </label>
                         <br/>
                         <label className='client-frame__label'>Баланс
-                            <input type='naumber' defaultValue={this.state.balance}
+                            <input type='naumber' defaultValue={null}
                             className='client-frame__info-string' ref={this.balRef}/>
                         </label>
                         <br/>
