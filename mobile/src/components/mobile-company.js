@@ -33,7 +33,11 @@ class MobileCompany extends React.PureComponent {
         clientFrameMode: 1, //1 -change, 2- add new client
         clientFrameInfo: null,
         whichFilter: 1, //1 -all, 2-active, 3-blocked
-        nextID: this.props.clients.length + 1,
+        //записываю все id, нахожу наибольший, прибавляю +1
+        nextID: Math.max.apply(null, this.props.clients.reduce((acc,item) => {
+                                    acc.push(item.id);
+                                    return acc;
+                                }, [])) + 1,
     };
 
     filterActive = () => {
@@ -53,24 +57,22 @@ class MobileCompany extends React.PureComponent {
             whichFilter:1} );
     };
 
-    deleteUser = (id) => {
-        let newClients;
-
-        //Все if для того, чтобы сразу после удаления пользователя, список оставшихся
-        //можно было отсортировать в зависимости от ранее выбранного фильтра
-        if (this.state.whichFilter === 1) {
-            newClients = this.state.notDeletedClients.filter(client => client.id !== id);
-        }
+    filterAfterChange = (arr) => {
         if (this.state.whichFilter === 2) {
-            newClients = this.state.notDeletedClients.filter(client => client.id !== id && client.balance >= 0);
+            return arr.filter( client => client.balance >= 0 );
+        } else if (this.state.whichFilter === 3) {
+            return arr.filter( client => client.balance < 0 );
+        } else {
+            return arr;
         }
-        if (this.state.whichFilter === 3) {
-            newClients = this.state.notDeletedClients.filter(client => client.id !== id && client.balance < 0);
-        }
+    };
+
+    deleteUser = (id) => {
+        let newClients = this.state.notDeletedClients.filter(client => client.id !== id);
         
         this.setState({
-            notDeletedClients: this.state.notDeletedClients.filter(client => client.id !== id),
-            clients: newClients});
+            notDeletedClients: newClients,
+            clients: this.filterAfterChange(newClients)});
     };
 
     editUser = (clientInfo) => {
@@ -94,20 +96,7 @@ class MobileCompany extends React.PureComponent {
     };
 
     updateClientsInfo = () => {
-        let newClients;
-        //Все if для того, чтобы сразу после изменения пользователя, список
-        //можно было отсортировать в зависимости от ранее выбранного фильтра
-        if (this.state.whichFilter === 1) {
-            newClients = this.state.notDeletedClients;
-        }
-        if (this.state.whichFilter === 2) {
-            newClients = this.state.notDeletedClients.filter(client => client.balance >= 0);
-        }
-        if (this.state.whichFilter === 3) {
-            newClients = this.state.notDeletedClients.filter(client => client.balance < 0);
-        }
-
-        this.setState({clients: newClients})
+        this.setState({clients: this.filterAfterChange(this.state.notDeletedClients)})
     };
 
     updateClientInfo = (id, familia, name, otches, money) => {
