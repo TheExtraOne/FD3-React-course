@@ -34,10 +34,16 @@ class MobileCompany extends React.PureComponent {
         clientFrameInfo: null,
         whichFilter: 1, //1 -all, 2-active, 3-blocked
         //записываю все id, нахожу наибольший, прибавляю +1
-        nextID: Math.max.apply(null, this.props.clients.reduce((acc,item) => {
-                                    acc.push(item.id);
-                                    return acc;
-                                }, [])) + 1,
+        //nextID:  Math.max( ...this.props.clients.map( item => item.id ) ) + 1,
+        nextID: (function(arr) {
+                    let maxValue = 0;
+                    for (let client of arr) {
+                        if (client.id > maxValue) {
+                            maxValue = client.id;
+                        }
+                    }
+                    return maxValue + 1;
+                }(this.props.clients)),
     };
 
     filterActive = () => {
