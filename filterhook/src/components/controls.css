@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font: normal 1em sans-serif;
+}
+.controls__checkbox {
+    margin: 0px 2px;
+}
+.controls__input {
+    margin: 0px 5px;
+    padding: 2px 5px;
+}
+.controls__reset {
+    cursor: pointer;
+    border: none;
+    border-radius: 2px;
+    padding: 4px 8px;
+}

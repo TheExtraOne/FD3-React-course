@@ -1,0 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font: normal 1em sans-serif;
+}
+#root {
+    margin: 20px;
+}
