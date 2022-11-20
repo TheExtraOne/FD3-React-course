@@ -1,15 +1,14 @@
-import React, { useState, useCallback} from 'react';
+import React, { useState} from 'react';
 
 import Controls from './controls';
 import List from './list';
 import './filter.css';
-import {ArrContext} from "../context/arr-context";
 
-const Filter = () => {
-    const [vocabulary, setVocab] = useState( ['california', 'everything', 'aboveboard', 'washington', 'basketball', 'weathering', 'characters', 'literature', 'contraband', 'appreciate'] );
+const Filter = ({vocab}) => {
+    const [vocabulary, setVocab] = useState( vocab );
 
     function filterAlphabet(isChecked, str) {
-        let newVoc = [...ArrContext._currentValue];
+        let newVoc = [...vocab];
         if (isChecked) {
             newVoc.sort();
         }
@@ -18,17 +17,13 @@ const Filter = () => {
         }
         setVocab(newVoc);
     }
-    
-    const memoizedFilterAlphabet = useCallback( filterAlphabet, [] );
 
     //console.log('Filter component rendered');
 
     return (
         <>
-            <Controls cbFilterAlphabet={memoizedFilterAlphabet}/>
-            <ArrContext.Provider value = {vocabulary}>
-                <List />
-            </ArrContext.Provider>
+            <Controls cbFilterAlphabet={filterAlphabet}/>
+            <List filteredVoc={vocabulary}/>
         </>
     );
 };

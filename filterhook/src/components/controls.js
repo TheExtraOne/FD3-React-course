@@ -12,7 +12,7 @@ const Controls = ({cbFilterAlphabet}) => {
     }
     //console.log('Controls component rendered');
 
-    return(
+    return (
         <>
             <input type='checkbox' ref={checkRef} onChange={()=> {cbFilterAlphabet(checkRef.current.checked, inputRef.current.value)}} className='controls__checkbox'/>
             <input type='text' ref={inputRef} onChange={()=>{cbFilterAlphabet(checkRef.current.checked, inputRef.current.value)}} className='controls__input'/>
