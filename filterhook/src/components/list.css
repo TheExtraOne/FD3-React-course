@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font: normal 1em sans-serif;
+}
+.vocab__list {
+    width: 208px;
+    height: 100px;
+    overflow-y: scroll;
+    border: solid 1px black;
+    padding: 10px;
+    margin: 20px 22px;
+}
+.vocab__item {
+    margin-top: 2px;
+}
