@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import './list.css';
-import {ArrContext} from "../context/arr-context";
 
-const List = () => {
-    const currVoc = useContext(ArrContext).map( (item, index) => {
+const List = ({filteredVoc}) => {
+    const currVoc = filteredVoc.map( (item, index) => {
         return <p className='vocab__item' key={index}>{item}</p>
     });
 
