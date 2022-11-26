@@ -32,76 +32,38 @@ const MobileCompany = ({ clients, categoryNames}) => {
         let newClients = allClients.filter( client => client.balance >= 0 );
         setClients(newClients);
         setFilter(2);
-        // this.setState( {clients:newClients,
-        //     whichFilter:2} );
     };
 
     const filterBlocked = () => {
         let newClients = allClients.filter( client => client.balance < 0 );
         setClients(newClients);
         setFilter(3);
-        // this.setState( {clients:newClients,
-        //     whichFilter:3} );
     };
 
     const filterAll = () => {
         setClients(allClients);
         setFilter(1);
-        // this.setState( {clients:this.state.notDeletedClients,
-        //     whichFilter:1} );
-    };
-
-    const filterAfterChange = (arr) => {
-        if (whichFilter === 2) {
-            return arr.filter( client => client.balance >= 0 );
-        } else if (whichFilter === 3) {
-            return arr.filter( client => client.balance < 0 );
-        } else {
-            return arr;
-        }
     };
 
     const deleteUser = (id) => {
         let newClients = allClients.filter(client => client.id !== id);
         setAllClients(newClients);
-        setClients(filterAfterChange(newClients))
-        // this.setState({
-        //     notDeletedClients: newClients,
-        //     clients: this.filterAfterChange(newClients)});
     };
 
     const editUser = (clientInfo) => {
         setShowClientFrame(true);
         setClientFrameMode(1);
         setClientFrameInfo(clientInfo);
-        // this.setState({
-        //     showClientFrame: true,
-        //     clientFrameMode:1,
-        //     clientFrameInfo: clientInfo})
     };
 
     const createClient = () => {
         setShowClientFrame(true);
         setClientFrameMode(2);
-        // this.setState({
-        //     showClientFrame: true,
-        //     clientFrameMode:2})
-    };
-
-    const updateClientsInfo = () => {
-        //console.log(allClients);
-        setClients(filterAfterChange(allClients))
-        //this.setState({clients: this.filterAfterChange(this.state.notDeletedClients)})
     };
 
     const canselFrame = () => {
         setShowClientFrame(false);
         setClientFrameInfo(null);
-        updateClientsInfo();
-        // this.setState({
-        //     showClientFrame:false,
-        //     clientFrameInfo: null},
-        //     this.updateClientsInfo)
     };
 
     const updateClientInfo = (id, familia, name, otches, money) => {
@@ -127,17 +89,13 @@ const MobileCompany = ({ clients, categoryNames}) => {
             if (changed) {
                 setAllClients(newClientsNotDel);
                 canselFrame();
-                //this.setState({notDeletedClients: newClientsNotDel},this.canselFrame);
             }
         //добавление нового
         } else {
-            newClientsNotDel.push({id:this.state.nextID, fam:familia, im:name, otch:otches, balance:money});
+            newClientsNotDel.push({id:nextID, fam:familia, im:name, otch:otches, balance:money});
             setAllClients(newClientsNotDel);
             setNextID(nextID + 1);
             canselFrame();
-            // this.setState({notDeletedClients: newClientsNotDel,
-            //     nextID: this.state.nextID+1}, //если написать nextID: this.state.nextID++, то ругается, что я изменяю напрямую
-            //     this.canselFrame);
         }
     }
 
@@ -154,6 +112,20 @@ const MobileCompany = ({ clients, categoryNames}) => {
             clientEvents.removeListener('ESaveClicked', updateClientInfo);
         }
     })
+
+    useEffect(() => {
+        const filterAfterChange = (arr) => {
+            if (whichFilter === 2) {
+                return arr.filter( client => client.balance >= 0 );
+            } else if (whichFilter === 3) {
+                return arr.filter( client => client.balance < 0 );
+            } else {
+                return arr;
+            }
+        };
+        filterAfterChange(allClients);
+        setClients(filterAfterChange(allClients))
+    }, [ allClients, whichFilter ])
 
     //console.log("MobileCompany render");
 
