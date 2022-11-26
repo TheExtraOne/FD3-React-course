@@ -1,0 +1,31 @@
+.client-frame {
+    margin: 20px 0px;
+    width: 30%;
+    padding: 10px;
+    border: 1px solid rgb(171, 171, 171);
+    border-radius: 20px;
+}
+.client-frame__label {
+    display: inline-block;
+    width: 100%;
+    margin: 5px 0px;
+}
+.client-frame__info-string {
+    float: right;
+}
+.client-frame__button {
+    cursor: pointer;
+    margin: 10px 5px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    transition: all .3s ease-in-out; 
+}
+.client-frame__button:hover {
+    transform: scale(1.05);
+    background-color: rgb(171, 171, 171);
+} 
+.client-frame__button:active {
+    transform: scale(1);
+    background-color: rgb(171, 171, 171);
+} 
