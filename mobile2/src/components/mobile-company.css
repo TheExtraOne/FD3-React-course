@@ -1,0 +1,32 @@
+.company__button {
+    cursor: pointer;
+    margin: 0px 5px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    transition: all .3s ease-in-out; 
+}
+.company__button_chosen {
+    background-color: rgb(171, 171, 171);
+}
+.company__button:hover {
+    transform: scale(1.05);
+    background-color: rgb(171, 171, 171);
+}
+.company__button:active {
+    transform: scale(1);
+    background-color: rgb(171, 171, 171);
+}
+.company__table-capture {
+    border-bottom: 1px solid #eee;
+}
+.company__clients {
+    margin: 20px 0px;
+    border-collapse: collapse;
+    border: 1px solid #eee;
+    text-align: center;
+}
+.company__clients td {
+    width: 100px;
+    padding: 10px;
+}
