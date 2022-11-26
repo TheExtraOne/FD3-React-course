@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import './mobile-client.css';
 import {clientEvents} from './clientEvets';
@@ -14,7 +14,9 @@ const MobileClient = ({ clientInfo }) => {
         clientEvents.emit('EEditClicked', clientInfo);
     };
 
-    // console.log(`MobileClient ${fam} render`);
+    useEffect(() => {
+        console.log(`MobileClient ${fam} render`);
+    });
 
     return (
         <tr key={id}>

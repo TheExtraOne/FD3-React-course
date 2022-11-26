@@ -12,7 +12,6 @@ const defaultClientInfo = {
 }
 
 const ClientFrame = ({ clientInfo = defaultClientInfo, mode}) => {
-
     const famRef = useRef(null);
     const nameRef = useRef(null);
     const otchRef = useRef(null);
@@ -33,7 +32,7 @@ const ClientFrame = ({ clientInfo = defaultClientInfo, mode}) => {
         }
     }
 
-    //console.log("ClientFrame render");
+    console.log("ClientFrame render");
 
     return (
         <div className='client-frame'>
