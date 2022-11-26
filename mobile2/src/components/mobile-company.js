@@ -1,12 +1,15 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import './mobile-company.css';
 import MobileClient from './mobile-client';
 import ClientFrame from './client-frame';
-
+import { updateClients } from "../redux/clientsSlice.js";
 import {clientEvents} from './clientEvets';
 
-const MobileCompany = ({ clients, categoryNames}) => {
+const MobileCompany = ({ categoryNames }) => {
+    const clients = useSelector( state => state.clients.clientsArr);
+    const dispatch = useDispatch();
 
     const cbGetNextID = useCallback(() => getNextID(clients), [ clients ]);
     
@@ -21,7 +24,6 @@ const MobileCompany = ({ clients, categoryNames}) => {
     }
 
     const [ visibleClients, setClients ] = useState(clients);
-    const [ allClients, setAllClients ] = useState(clients);
     const [ showClientFrame, setShowClientFrame ] = useState(false);
     const [ clientFrameMode, setClientFrameMode ] = useState(1); //1 -change, 2- add new client
     const [ clientFrameInfo, setClientFrameInfo ] = useState(null);
@@ -29,25 +31,25 @@ const MobileCompany = ({ clients, categoryNames}) => {
     const [ nextID, setNextID ] = useState(cbGetNextID);
 
     const filterActive = () => {
-        let newClients = allClients.filter( client => client.balance >= 0 );
+        let newClients = clients.filter( client => client.balance >= 0 );
         setClients(newClients);
         setFilter(2);
     };
 
     const filterBlocked = () => {
-        let newClients = allClients.filter( client => client.balance < 0 );
+        let newClients = clients.filter( client => client.balance < 0 );
         setClients(newClients);
         setFilter(3);
     };
 
     const filterAll = () => {
-        setClients(allClients);
+        setClients(clients);
         setFilter(1);
     };
 
     const deleteUser = (id) => {
-        let newClients = allClients.filter(client => client.id !== id);
-        setAllClients(newClients);
+        let newClients = clients.filter(client => client.id !== id);
+        dispatch(updateClients(newClients));
     };
 
     const editUser = (clientInfo) => {
@@ -67,7 +69,7 @@ const MobileCompany = ({ clients, categoryNames}) => {
     };
 
     const updateClientInfo = (id, familia, name, otches, money) => {
-        let newClientsNotDel = [...allClients];
+        let newClientsNotDel = [...clients];
         //изменение уже существующего
         if (clientFrameMode === 1) {
             let changed = false;
@@ -87,13 +89,13 @@ const MobileCompany = ({ clients, categoryNames}) => {
             });
 
             if (changed) {
-                setAllClients(newClientsNotDel);
+                dispatch(updateClients(newClientsNotDel));
                 canselFrame();
             }
         //добавление нового
         } else {
             newClientsNotDel.push({id:nextID, fam:familia, im:name, otch:otches, balance:money});
-            setAllClients(newClientsNotDel);
+            dispatch(updateClients(newClientsNotDel));
             setNextID(nextID + 1);
             canselFrame();
         }
@@ -123,18 +125,18 @@ const MobileCompany = ({ clients, categoryNames}) => {
                 return arr;
             }
         };
-        filterAfterChange(allClients);
-        setClients(filterAfterChange(allClients))
-    }, [ allClients, whichFilter ])
+        filterAfterChange(clients);
 
-    //console.log("MobileCompany render");
+        setClients(filterAfterChange(clients));
+    }, [ clients, whichFilter ])
+
+    console.log("MobileCompany render");
 
     const tableCapture = categoryNames.map( item => <td key={item.code}>{item.part}</td> );
-    const tableString = visibleClients.map( client => {
-        return <MobileClient 
-            key={client.id} 
-            clientInfo={client}  />;
-    });
+    const tableStringMemo = useMemo(
+        () => visibleClients.map( client => <MobileClient key={client.id} clientInfo={client} /> ),
+        [visibleClients]
+    );
 
     return (
         <div className='company'>
@@ -154,7 +156,7 @@ const MobileCompany = ({ clients, categoryNames}) => {
             <table className='company__clients'>
                 <tbody>
                     <tr className='company__table-capture'>{tableCapture}</tr>
-                    {tableString}
+                    { tableStringMemo }
                 </tbody>
             </table>
 
