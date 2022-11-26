@@ -30,6 +30,16 @@ const MobileCompany = ({ categoryNames }) => {
     const [ whichFilter, setFilter] = useState(1); //1 -all, 2-active, 3-blocked
     const [ nextID, setNextID ] = useState(cbGetNextID);
 
+    const filterAfterChange = (arr) => {
+        if (whichFilter === 2) {
+            return arr.filter( client => client.balance >= 0 );
+        } else if (whichFilter === 3) {
+            return arr.filter( client => client.balance < 0 );
+        } else {
+            return arr;
+        }
+    };
+
     const filterActive = () => {
         let newClients = clients.filter( client => client.balance >= 0 );
         setClients(newClients);
@@ -50,6 +60,7 @@ const MobileCompany = ({ categoryNames }) => {
     const deleteUser = (id) => {
         let newClients = clients.filter(client => client.id !== id);
         dispatch(updateClients(newClients));
+        setClients(filterAfterChange(newClients))
     };
 
     const editUser = (clientInfo) => {
@@ -90,12 +101,14 @@ const MobileCompany = ({ categoryNames }) => {
 
             if (changed) {
                 dispatch(updateClients(newClientsNotDel));
+                setClients(filterAfterChange(newClientsNotDel))
                 canselFrame();
             }
         //добавление нового
         } else {
             newClientsNotDel.push({id:nextID, fam:familia, im:name, otch:otches, balance:money});
             dispatch(updateClients(newClientsNotDel));
+            setClients(filterAfterChange(newClientsNotDel))
             setNextID(nextID + 1);
             canselFrame();
         }
@@ -114,21 +127,6 @@ const MobileCompany = ({ categoryNames }) => {
             clientEvents.removeListener('ESaveClicked', updateClientInfo);
         }
     })
-
-    useEffect(() => {
-        const filterAfterChange = (arr) => {
-            if (whichFilter === 2) {
-                return arr.filter( client => client.balance >= 0 );
-            } else if (whichFilter === 3) {
-                return arr.filter( client => client.balance < 0 );
-            } else {
-                return arr;
-            }
-        };
-        filterAfterChange(clients);
-
-        setClients(filterAfterChange(clients));
-    }, [ clients, whichFilter ])
 
     console.log("MobileCompany render");
 
