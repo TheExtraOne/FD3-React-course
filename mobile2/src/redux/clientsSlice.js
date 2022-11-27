@@ -15,6 +15,21 @@ export const clientsSlice = createSlice({
   reducers: {
 
     updateClients: (state, action) => {
+      //console.log(state.clientsArr);
+      state.clientsArr = state.clientsArr.map( (client,i) => {
+        console.log(client);
+        if (client.id === action.payload.id) {
+            //let newClient = {...client}; // копия хэша изменившегося клиента
+
+            client.fam = action.payload.familia;
+            client.im = action.payload.name;
+            client.otch = action.payload.otches;
+            client.balance = action.payload.money;
+            
+            // newClientsNotDel[i] = newClient;
+            // changed = true;
+        }
+    });
       state.clientsArr = action.payload;
     },
 
