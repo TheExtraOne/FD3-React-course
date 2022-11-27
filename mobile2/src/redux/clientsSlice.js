@@ -27,10 +27,9 @@ export const clientsSlice = createSlice({
             client.balance = action.payload.money;
             
             // newClientsNotDel[i] = newClient;
-            // changed = true;
         }
-    });
-      state.clientsArr = action.payload;
+      });
+      //state.clientsArr = action.payload;
     },
 
     addNewClient: (state,action) => {
