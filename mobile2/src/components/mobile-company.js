@@ -9,7 +9,7 @@ import {clientEvents} from './clientEvets';
 
 const MobileCompany = ({ categoryNames }) => {
     const clients = useSelector( state => state.clients.clientsArr);
-    console.log(clients);
+
     const dispatch = useDispatch();
 
     const cbGetNextID = useCallback(() => getNextID(clients), [ clients ]);
@@ -30,16 +30,6 @@ const MobileCompany = ({ categoryNames }) => {
     const [ clientFrameInfo, setClientFrameInfo ] = useState(null);
     const [ whichFilter, setFilter] = useState(1); //1 -all, 2-active, 3-blocked
     const [ nextID, setNextID ] = useState(cbGetNextID);
-
-    const filterAfterChange = (arr) => {
-        if (whichFilter === 2) {
-            return arr.filter( client => client.balance >= 0 );
-        } else if (whichFilter === 3) {
-            return arr.filter( client => client.balance < 0 );
-        } else {
-            return arr;
-        }
-    };
 
     const filterActive = () => {
         let newClients = clients.filter( client => client.balance >= 0 );
@@ -126,9 +116,18 @@ const MobileCompany = ({ categoryNames }) => {
     })
 
     useEffect(() => {
+        const filterAfterChange = (arr) => {
+            if (whichFilter === 2) {
+                return arr.filter( client => client.balance >= 0 );
+            } else if (whichFilter === 3) {
+                return arr.filter( client => client.balance < 0 );
+            } else {
+                return arr;
+            }
+        };
         setClients(filterAfterChange(clients));
-    }, [clients]);
-    
+    }, [ clients, whichFilter ]);
+
     //console.log("MobileCompany render");
 
     const tableCapture = categoryNames.map( item => <td key={item.code}>{item.part}</td> );
