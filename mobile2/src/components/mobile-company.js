@@ -9,7 +9,7 @@ import {clientEvents} from './clientEvets';
 
 const MobileCompany = ({ categoryNames }) => {
     const clients = useSelector( state => state.clients.clientsArr);
-    //console.log(clients);
+    
     const dispatch = useDispatch();
 
     const cbGetNextID = useCallback(() => getNextID(clients), [ clients ]);
@@ -72,26 +72,8 @@ const MobileCompany = ({ categoryNames }) => {
         let newClientsNotDel = [...clients];
         //изменение уже существующего
         if (clientFrameMode === 1) {
-            //let changed = false;
-
-            // newClientsNotDel.forEach( (client,i) => {
-            //     if (client.id === id) {
-            //         let newClient = {...client}; // копия хэша изменившегося клиента
-
-            //         newClient.fam = familia;
-            //         newClient.im = name;
-            //         newClient.otch = otches;
-            //         newClient.balance = money;
-                    
-            //         newClientsNotDel[i] = newClient;
-            //         changed = true;
-            //     }
-            // });
-
-            //if (changed) {
-                dispatch(updateClients({id, familia, name, otches, money}));
-                canselFrame();
-            //}
+            dispatch(updateClients({id, familia, name, otches, money}));
+            canselFrame();
         //добавление нового
         } else {
             newClientsNotDel.push({id:nextID, fam:familia, im:name, otch:otches, balance:money});
