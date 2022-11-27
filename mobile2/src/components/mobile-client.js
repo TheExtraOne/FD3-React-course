@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import './mobile-client.css';
 import {clientEvents} from './clientEvets';
@@ -15,7 +15,7 @@ const MobileClient = ({ clientInfo }) => {
         clientEvents.emit('EEditClicked', clientInfo);
     };
 
-    //console.log(`MobileClient ${fam} render`);
+    console.log(`MobileClient ${fam} render`);
 
     return (
         <tr key={id}>
@@ -36,4 +36,4 @@ const MobileClient = ({ clientInfo }) => {
     );
 }
 
-export default MobileClient;
+export default React.memo(MobileClient);
