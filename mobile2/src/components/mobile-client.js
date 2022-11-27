@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import './mobile-client.css';
 import {clientEvents} from './clientEvets';
 
 const MobileClient = ({ clientInfo }) => {
+
     const { id, fam, im, otch, balance } = clientInfo;
 
     const deleteClicked = () => {
