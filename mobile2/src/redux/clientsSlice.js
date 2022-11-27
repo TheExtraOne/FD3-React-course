@@ -15,19 +15,16 @@ export const clientsSlice = createSlice({
   reducers: {
 
     updateClients: (state, action) => {
-      //console.log(action.payload);
-      //console.log(state.clientsArr);
       state.clientsArr = action.payload;
-      //console.log(state.clientsArr);
     },
 
-    // addNewClient: (state,action) => {
-    //   state.clientsArr = action.payload;
-    // },
+    addNewClient: (state,action) => {
+      state.clientsArr = [ ...state.clientsArr, action.payload ];
+    },
 
-    // deleteClient: (state,action) => {
-    //   state.clientsArr = action.payload;
-    // },
+    deleteClient: (state,action) => {
+      state.clientsArr = [ ...state.clientsArr ].filter((client) => client.id !== action.payload);
+    },
   },
 });
 
