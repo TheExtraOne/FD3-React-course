@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import './mobile-company.css';
 import MobileClient from './mobile-client';
 import ClientFrame from './client-frame';
-import { updateClients } from "../redux/clientsSlice.js";
+import { updateClients, addNewClient, deleteClient } from "../redux/clientsSlice.js";
 import {clientEvents} from './clientEvets';
 
 const MobileCompany = ({ categoryNames }) => {
     const clients = useSelector( state => state.clients.clientsArr);
+    console.log(clients);
     const dispatch = useDispatch();
 
     const cbGetNextID = useCallback(() => getNextID(clients), [ clients ]);
@@ -58,9 +59,7 @@ const MobileCompany = ({ categoryNames }) => {
     };
 
     const deleteUser = (id) => {
-        let newClients = clients.filter(client => client.id !== id);
-        dispatch(updateClients(newClients));
-        setClients(filterAfterChange(newClients))
+        dispatch(deleteClient(id));
     };
 
     const editUser = (clientInfo) => {
@@ -101,14 +100,12 @@ const MobileCompany = ({ categoryNames }) => {
 
             if (changed) {
                 dispatch(updateClients(newClientsNotDel));
-                setClients(filterAfterChange(newClientsNotDel))
                 canselFrame();
             }
         //добавление нового
         } else {
             newClientsNotDel.push({id:nextID, fam:familia, im:name, otch:otches, balance:money});
-            dispatch(updateClients(newClientsNotDel));
-            setClients(filterAfterChange(newClientsNotDel))
+            dispatch(addNewClient({id:nextID, fam:familia, im:name, otch:otches, balance:money}));
             setNextID(nextID + 1);
             canselFrame();
         }
@@ -128,7 +125,11 @@ const MobileCompany = ({ categoryNames }) => {
         }
     })
 
-    console.log("MobileCompany render");
+    useEffect(() => {
+        setClients(filterAfterChange(clients));
+    }, [clients]);
+    
+    //console.log("MobileCompany render");
 
     const tableCapture = categoryNames.map( item => <td key={item.code}>{item.part}</td> );
     const tableStringMemo = useMemo(
